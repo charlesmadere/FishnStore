@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.charlesmadere.android.fishnstore"
+	android:versionCode="1"
+	android:versionName="0.1">
+
+	<uses-sdk
+		android:minSdkVersion="14"
+		android:targetSdkVersion="17" />
+
+	<application
+		android:allowBackup="false"
+		android:icon="@drawable/launcher"
+		android:label="@string/fish_n_store">
+		<activity
+			android:name="com.charlesmadere.android.fishnstore.MainActivity"
+			android:label="@string/fish_n_store">
+			<intent-filter>
+				<action
+					android:name="android.intent.action.MAIN" />
+				<category
+					android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name="com.charlesmadere.android.fishnstore.SaveCurrentLocationActivity"
+			android:label="@string/save_current_location" />
+	</application>
+
+</manifest>
