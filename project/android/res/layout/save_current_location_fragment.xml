@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
+	android:orientation="vertical">
+	<TextView
+		android:gravity="center"
+		android:id="@+id/save_current_location_fragment_textview_header"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:text="@string/searching_for_location" />
+	<TextView
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:text="@string/name" />
+	<EditText
+		android:hint="@string/name"
+		android:id="@+id/save_current_location_fragment_edittext_name"
+		android:inputType="textCapWords"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:maxLength="255" />
+	<TextView
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:text="@string/latitude" />
+	<EditText
+		android:enabled="false"
+		android:hint="@string/latitude"
+		android:id="@+id/save_current_location_fragment_edittext_latitude"
+		android:inputType="numberDecimal"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:maxLength="255"
+		android:typeface="monospace" />
+	<TextView
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:text="@string/longitude" />
+	<EditText
+		android:enabled="false"
+		android:hint="@string/longitude"
+		android:id="@+id/save_current_location_fragment_edittext_longitude"
+		android:inputType="numberDecimal"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:maxLength="255"
+		android:typeface="monospace" />
+	<Button
+		android:enabled="false"
+		android:id="@+id/save_current_location_fragment_button_save_current_location"
+		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:text="@string/save_current_location" />
+</LinearLayout>

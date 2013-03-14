@@ -1,12 +1,13 @@
 package com.charlesmadere.android.fishnspots;
 
 
-import com.charlesmadere.android.fishnspots.utilities.Utilities;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+
+import com.charlesmadere.android.fishnspots.utilities.Utilities;
 
 
 public class SQLiteHelper extends SQLiteOpenHelper
@@ -34,17 +35,22 @@ public class SQLiteHelper extends SQLiteOpenHelper
 	@Override
 	public void onCreate(final SQLiteDatabase db)
 	{
-		final String sqlStatementString = "CREATE TABLE ? ";
-		db.execSQL(sqlStatementString);
+		final String sqlStatementString = "CREATE TABLE IF NOT EXISTS ?";
+		final SQLiteStatement sqlStatement = db.compileStatement(sqlStatementString);
+		sqlStatement.bindString(1, TABLE_SPOTS);
+		sqlStatement.execute();
 	}
+
 
 	@Override
 	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion)
 	{
 		Log.i(LOG_TAG, "Upgrading database to version " + newVersion + " from " + oldVersion + ".");
 
-		final String sqlStatementString = "DROP TABLE IF EXISTS " + TABLE_SPOTS;
-		db.execSQL(sqlStatementString);
+		final String sqlStatementString = "DROP TABLE IF EXISTS ?";
+		final SQLiteStatement sqlStatement = db.compileStatement(sqlStatementString);
+		sqlStatement.bindString(1, TABLE_SPOTS);
+		sqlStatement.execute();
 	}
 
 
