@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -31,7 +32,9 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	private EditText editText_name;
 	private EditText editText_latitude;
 	private EditText editText_longitude;
-	private Button button_saveCurrentLocation;
+	private ProgressBar progressBar_header;
+	private Button button_refresh;
+	private Button button_saveThisLocation;
 
 
 	/**
@@ -55,13 +58,6 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	 */
 	public interface SaveCurrentLocationListeners
 	{
-
-
-		/**
-		 * @return
-		 * 
-		 */
-		public boolean isDeviceSmall();
 
 
 		/**
@@ -119,11 +115,11 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 				if (editText_name.length() >= 1 && editText_latitude.length() >= 1 && editText_longitude.length() >= 1)
 				{
-					button_saveCurrentLocation.setEnabled(true);
+					button_saveThisLocation.setEnabled(true);
 				}
 				else
 				{
-					button_saveCurrentLocation.setEnabled(false);
+					button_saveThisLocation.setEnabled(false);
 				}
 			}
 
@@ -146,6 +142,18 @@ public class SaveCurrentLocationFragment extends DialogFragment
 		editText_latitude.addTextChangedListener(textWatcher);
 		editText_longitude.addTextChangedListener(textWatcher);
 
+		button_refresh.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View v)
+			{
+				if (v.getVisibility() == View.VISIBLE)
+				{
+					refreshLocation();
+				}
+			}
+		});
+
 		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 		locationListener = new LocationListener()
 		{
@@ -162,7 +170,7 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 				flushViews();
 
-				button_saveCurrentLocation.setOnClickListener(new View.OnClickListener()
+				button_saveThisLocation.setOnClickListener(new View.OnClickListener()
 				{
 					@Override
 					public void onClick(final View v)
@@ -221,12 +229,6 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 		menu.removeItem(R.id.location_list_fragment_menu_save_current_location);
-
-		if (listeners.isDeviceSmall())
-		{
-			inflater.inflate(R.menu.save_current_location_fragment, menu);
-		}
-
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -240,27 +242,11 @@ public class SaveCurrentLocationFragment extends DialogFragment
 				getActivity().onBackPressed();
 				break;
 
-			case R.id.save_current_location_fragment_menu_refresh:
-				refreshLocation();
-				break;
-
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 
 		return true;
-	}
-
-
-	@Override
-	public void onPrepareOptionsMenu(final Menu menu)
-	{
-		final MenuItem refresh = menu.findItem(R.id.save_current_location_fragment_menu_refresh);
-
-		if (refresh != null)
-		{
-			refresh.setEnabled(!locationSearchIsRunning);
-		}
 	}
 
 
@@ -275,15 +261,18 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	private void findViews()
 	{
 		if (textView_header == null || editText_name == null || editText_latitude == null
-			|| editText_longitude == null || button_saveCurrentLocation == null)
+			|| editText_longitude == null || progressBar_header == null || button_refresh == null
+			|| button_saveThisLocation == null)
 		{
 			final View view = getView();
 
-			textView_header = (TextView) view.findViewById(R.id.save_current_location_fragment_textview_header);
+			textView_header = (TextView) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_textview);
 			editText_name = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_name);
 			editText_latitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_latitude);
 			editText_longitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_longitude);
-			button_saveCurrentLocation = (Button) view.findViewById(R.id.save_current_location_fragment_button_save_current_location);
+			progressBar_header = (ProgressBar) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_progressbar);
+			button_refresh = (Button) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_button);
+			button_saveThisLocation = (Button) view.findViewById(R.id.save_current_location_fragment_button_save_current_location);
 		}
 	}
 
@@ -293,14 +282,15 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	 * class's layout. If we're currently searching for the phone's location,
 	 * then this will disable the EditText layout items. If we're not currently
 	 * searching for the phone's location, then this will enable the EditText
-	 * layout items. After all of this is done, the menu is invalidated so that
-	 * it can be rebuilt.
+	 * layout items.
 	 */
 	private void flushViews()
 	{
 		if (locationSearchIsRunning)
 		{
 			textView_header.setText(R.string.searching_for_location);
+			progressBar_header.setVisibility(View.VISIBLE);
+			button_refresh.setVisibility(View.GONE);
 
 			editText_latitude.setText(null);
 			editText_latitude.setEnabled(false);
@@ -311,12 +301,12 @@ public class SaveCurrentLocationFragment extends DialogFragment
 		else
 		{
 			textView_header.setText(R.string.location_found);
+			progressBar_header.setVisibility(View.GONE);
+			button_refresh.setVisibility(View.VISIBLE);
 
 			editText_latitude.setEnabled(true);
 			editText_longitude.setEnabled(true);
 		}
-
-		getActivity().invalidateOptionsMenu();
 	}
 
 

@@ -8,5 +8,6 @@
 	<string name="name">Name</string>
 	<string name="refresh">Refresh</string>
 	<string name="save_current_location">Save Current Location</string>
+	<string name="save_this_location">Save this Location</string>
 	<string name="searching_for_location">Searching for Location&#8230;</string>
 </resources>

@@ -33,31 +33,28 @@ public class MainActivity extends Activity implements
 		final FragmentManager fManager = getFragmentManager();
 		final FragmentTransaction fTransaction = fManager.beginTransaction();
 
-		if (isDeviceLarge())
+		if (savedInstanceState == null)
 		{
-			locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_fragment_location_list_fragment);
-		}
-		else
-		{
-			locationListFragment = new LocationListFragment();
-			fTransaction.add(R.id.main_activity_container, locationListFragment);
-		}
+			if (isDeviceLarge())
+			{
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_fragment_location_list_fragment);
+			}
+			else
+			{
+				locationListFragment = new LocationListFragment();
+				fTransaction.add(R.id.main_activity_container, locationListFragment);
+			}
 
-		fTransaction.commit();
+			fTransaction.commit();
+		}
 	}
 
 
 	@Override
 	public void onBackPressed()
 	{
-		if (!isDeviceLarge() && saveCurrentLocationFragment != null && saveCurrentLocationFragment.isVisible())
-		{
-			final ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(false);
-			actionBar.setTitle(R.string.fish_n_spots);
-		}
-
 		super.onBackPressed();
+		refreshActionBar();
 	}
 
 
@@ -77,13 +74,23 @@ public class MainActivity extends Activity implements
 	}
 
 
-
-
-	@Override
-	public boolean isDeviceSmall()
+	private void refreshActionBar()
 	{
-		return !isDeviceLarge();
+		final ActionBar actionBar = getActionBar();
+
+		if (locationListFragment != null && locationListFragment.isVisible())
+		{
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setTitle(R.string.fish_n_spots);
+		}
+		else if (saveCurrentLocationFragment != null && saveCurrentLocationFragment.isVisible())
+		{
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle(R.string.save_current_location);
+		}
 	}
+
+
 
 
 	@Override
@@ -105,10 +112,10 @@ public class MainActivity extends Activity implements
 			fTransaction.addToBackStack(null);
 			fTransaction.commit();
 
-			final ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(R.string.save_current_location);
+			fManager.executePendingTransactions();
 		}
+
+		refreshActionBar();
 	}
 
 
@@ -117,12 +124,7 @@ public class MainActivity extends Activity implements
 	{
 		if (saveCurrentLocationFragment != null && saveCurrentLocationFragment.isVisible())
 		{
-			final FragmentManager fManager = getFragmentManager();
-			fManager.popBackStack();
-
-			final FragmentTransaction fTransaction = fManager.beginTransaction();
-			fTransaction.remove(saveCurrentLocationFragment);
-			fTransaction.commit();
+			onBackPressed();
 		}
 	}
 
