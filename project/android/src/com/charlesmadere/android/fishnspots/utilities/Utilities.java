@@ -1,4 +1,4 @@
-package com.charlesmadere.android.fishnstore.utilities;
+package com.charlesmadere.android.fishnspots.utilities;
 
 
 /**
@@ -8,7 +8,7 @@ public final class Utilities
 {
 
 
-	public final static String LOG_TAG = "FishnStore";
+	public final static String LOG_TAG = "FishnSpots";
 
 
 }

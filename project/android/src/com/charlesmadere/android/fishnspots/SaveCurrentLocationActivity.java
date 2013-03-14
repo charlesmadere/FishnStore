@@ -1,4 +1,4 @@
-package com.charlesmadere.android.fishnstore;
+package com.charlesmadere.android.fishnspots;
 
 
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.charlesmadere.android.fishnstore.utilities.Utilities;
+import com.charlesmadere.android.fishnspots.utilities.Utilities;
 
 
 public class SaveCurrentLocationActivity extends Activity

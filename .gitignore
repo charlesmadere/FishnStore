@@ -1,4 +1,23 @@
 #################
+## Android
+#################
+
+# built application files
+# *.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+
+#################
 ## Eclipse
 #################
 
@@ -153,10 +172,10 @@ pip-log.txt
 .coverage
 .tox
 
-#Translations
+# Translations
 *.mo
 
-#Mr Developer
+# Mr Developer
 .mr.developer.cfg
 
 # Mac crap

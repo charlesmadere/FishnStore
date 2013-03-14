@@ -1,7 +1,7 @@
-package com.charlesmadere.android.fishnstore;
+package com.charlesmadere.android.fishnspots;
 
 
-import com.charlesmadere.android.fishnstore.utilities.Utilities;
+import com.charlesmadere.android.fishnspots.utilities.Utilities;
 
 import android.app.Activity;
 import android.content.Intent;
