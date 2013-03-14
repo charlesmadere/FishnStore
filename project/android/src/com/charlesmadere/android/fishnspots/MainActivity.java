@@ -82,16 +82,17 @@ public class MainActivity extends Activity implements
 	@Override
 	public void onClickSaveCurrentLocation()
 	{
+		saveCurrentLocationFragment = new SaveCurrentLocationFragment();
 		final FragmentManager fManager = getFragmentManager();
 
 		if (isDeviceLarge())
 		{
-			
+			saveCurrentLocationFragment.show(fManager, null);
 		}
 		else
 		{
 			final FragmentTransaction fTransaction = fManager.beginTransaction();
-			saveCurrentLocationFragment = new SaveCurrentLocationFragment();
+			fTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 			fTransaction.hide(locationListFragment);
 			fTransaction.add(R.id.main_activity_container, saveCurrentLocationFragment);
 			fTransaction.addToBackStack(null);
@@ -107,7 +108,15 @@ public class MainActivity extends Activity implements
 	@Override
 	public void onLocationSave(final Location location)
 	{
-		
+		if (saveCurrentLocationFragment != null && saveCurrentLocationFragment.isVisible())
+		{
+			final FragmentManager fManager = getFragmentManager();
+			fManager.popBackStack();
+
+			final FragmentTransaction fTransaction = fManager.beginTransaction();
+			fTransaction.remove(saveCurrentLocationFragment);
+			fTransaction.commit();
+		}
 	}
 
 

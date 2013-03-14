@@ -2,7 +2,8 @@ package com.charlesmadere.android.fishnspots;
 
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,12 +17,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class SaveCurrentLocationFragment extends Fragment
+public class SaveCurrentLocationFragment extends DialogFragment
 {
 
 
@@ -78,9 +80,19 @@ public class SaveCurrentLocationFragment extends Fragment
 
 
 	@Override
+	public Dialog onCreateDialog(final Bundle savedInstanceState)
+	{
+		final Dialog dialog = super.onCreateDialog(savedInstanceState);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		return dialog;
+	}
+
+
+	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.save_current_location_fragment, null);
+		return inflater.inflate(R.layout.save_current_location_fragment, container, false);
 	}
 
 
