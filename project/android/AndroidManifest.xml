@@ -8,6 +8,10 @@
 		android:minSdkVersion="14"
 		android:targetSdkVersion="17" />
 
+	<!-- Needed to acquire user's GPS location. -->
+	<uses-permission
+		android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 	<application
 		android:allowBackup="false"
 		android:icon="@drawable/launcher"

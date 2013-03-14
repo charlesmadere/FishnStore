@@ -1,6 +1,8 @@
 package com.charlesmadere.android.fishnstore;
 
 
+import com.charlesmadere.android.fishnstore.utilities.Utilities;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+/**
+ * This class is the app's entry point.
+ */
 public class MainActivity extends Activity
 {
+
+
+	private final static String LOG_TAG = Utilities.LOG_TAG + " - MainActivity";
 
 
 	@Override
@@ -24,7 +32,7 @@ public class MainActivity extends Activity
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.main_activity, menu);
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 
 

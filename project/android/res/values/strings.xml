@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="fish_n_store">Fish \'n\' Store</string>
+	<string name="refresh">Refresh</string>
 	<string name="save_current_location">Save Current Location</string>
 </resources>
