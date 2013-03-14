@@ -58,6 +58,13 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 
 		/**
+		 * @return
+		 * 
+		 */
+		public boolean isDeviceSmall();
+
+
+		/**
 		 * 
 		 * 
 		 * @param location
@@ -214,7 +221,12 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 		menu.removeItem(R.id.location_list_fragment_menu_save_current_location);
-		inflater.inflate(R.menu.save_current_location_fragment, menu);
+
+		if (listeners.isDeviceSmall())
+		{
+			inflater.inflate(R.menu.save_current_location_fragment, menu);
+		}
+
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -243,7 +255,12 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu)
 	{
-		menu.findItem(R.id.save_current_location_fragment_menu_refresh).setEnabled(!locationSearchIsRunning);
+		final MenuItem refresh = menu.findItem(R.id.save_current_location_fragment_menu_refresh);
+
+		if (refresh != null)
+		{
+			refresh.setEnabled(!locationSearchIsRunning);
+		}
 	}
 
 

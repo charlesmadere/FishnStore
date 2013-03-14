@@ -80,6 +80,13 @@ public class MainActivity extends Activity implements
 
 
 	@Override
+	public boolean isDeviceSmall()
+	{
+		return !isDeviceLarge();
+	}
+
+
+	@Override
 	public void onClickSaveCurrentLocation()
 	{
 		saveCurrentLocationFragment = new SaveCurrentLocationFragment();
