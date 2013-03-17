@@ -30,6 +30,8 @@ public class SaveCurrentLocationFragment extends DialogFragment
 {
 
 
+	public final static String TAG = "SaveCurrentLocationFragment";
+
 	private final static String EDIT_TEXT_NAME_KEY = "EDIT_TEXT_NAME_KEY";
 	private final static String EDIT_TEXT_ALTITUDE_KEY = "EDIT_TEXT_ALTITUDE_KEY";
 	private final static String EDIT_TEXT_LATITUDE_KEY = "EDIT_TEXT_LATITUDE_KEY";

@@ -25,6 +25,7 @@ public class LocationListFragment extends ListFragment
 
 
 	private SimpleLocationsDataSource dataSource;
+	private LocationListAdapter adapter;
 
 
 	/**
@@ -63,7 +64,7 @@ public class LocationListFragment extends ListFragment
 		dataSource.open();
 
 		final ArrayList<SimpleLocation> locations = dataSource.getAllSimpleLocations();
-		final LocationListAdapter adapter = new LocationListAdapter(getActivity(), R.layout.location_list_fragment_item, locations);
+		adapter = new LocationListAdapter(getActivity(), R.layout.location_list_fragment_item, locations);
 		setListAdapter(adapter);
 	}
 
@@ -116,6 +117,15 @@ public class LocationListFragment extends ListFragment
 		}
 
 		return true;
+	}
+
+
+
+
+	public void createSimpleLocation(final SimpleLocation location)
+	{
+		dataSource.createSimpleLocation(location);
+		adapter.notifyDataSetChanged();
 	}
 
 

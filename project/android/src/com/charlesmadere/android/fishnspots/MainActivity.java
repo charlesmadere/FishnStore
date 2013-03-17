@@ -134,7 +134,7 @@ public class MainActivity extends Activity implements
 
 		if (isDeviceLarge())
 		{
-			saveCurrentLocationFragment.show(fManager, "dialog");
+			saveCurrentLocationFragment.show(fManager, SaveCurrentLocationFragment.TAG);
 		}
 		else
 		{
@@ -150,14 +150,14 @@ public class MainActivity extends Activity implements
 
 
 	@Override
-	public void onLocationSave(final SimpleLocation simpleLocation)
+	public void onLocationSave(final SimpleLocation location)
 	{
 		final FragmentManager fManager = getFragmentManager();
 		fManager.popBackStack();
 
 		if (saveCurrentLocationFragment == null)
 		{
-			saveCurrentLocationFragment = (SaveCurrentLocationFragment) fManager.findFragmentByTag("dialog");
+			saveCurrentLocationFragment = (SaveCurrentLocationFragment) fManager.findFragmentByTag(SaveCurrentLocationFragment.TAG);
 		}
 
 		final FragmentTransaction fTransaction = fManager.beginTransaction();
@@ -165,6 +165,20 @@ public class MainActivity extends Activity implements
 		fTransaction.commit();
 
 		fManager.executePendingTransactions();
+
+		if (locationListFragment == null)
+		{
+			if (isDeviceLarge())
+			{
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_fragment_location_list_fragment);
+			}
+			else
+			{
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_container);
+			}
+		}
+
+		locationListFragment.createSimpleLocation(location);
 
 		refreshActionBar();
 	}

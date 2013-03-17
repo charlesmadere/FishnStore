@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Location;
 
 import com.charlesmadere.android.fishnspots.utilities.DatabaseHelper;
 
@@ -42,7 +41,7 @@ public class SimpleLocationsDataSource
 	}
 
 
-	public SimpleLocation createSimpleLocation(final Location location)
+	public SimpleLocation createSimpleLocation(final SimpleLocation location)
 	{
 		final ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_ALTITUDE, location.getAltitude());
