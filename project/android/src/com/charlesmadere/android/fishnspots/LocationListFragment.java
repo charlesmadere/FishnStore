@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 import com.charlesmadere.android.fishnspots.models.SimpleLocationsDataSource;
@@ -60,7 +63,8 @@ public class LocationListFragment extends ListFragment
 		dataSource.open();
 
 		final ArrayList<SimpleLocation> locations = dataSource.getAllSimpleLocations();
-		
+		final LocationListAdapter adapter = new LocationListAdapter(getActivity(), R.layout.location_list_fragment_item, locations);
+		setListAdapter(adapter);
 	}
 
 
@@ -112,6 +116,85 @@ public class LocationListFragment extends ListFragment
 		}
 
 		return true;
+	}
+
+
+
+
+	private final class LocationListAdapter extends ArrayAdapter<SimpleLocation>
+	{
+
+
+		private ArrayList<SimpleLocation> locations;
+		private LayoutInflater inflater;
+
+
+		private LocationListAdapter(final Context context, final int viewResourceId, final ArrayList<SimpleLocation> locations)
+		{
+			super(context, viewResourceId, locations);
+			this.locations = locations;
+			inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+
+
+		@Override
+		public View getView(final int position, View convertView, final ViewGroup parent)
+		{
+			if (convertView == null)
+			{
+				convertView = inflater.inflate(R.layout.location_list_fragment_item, null);
+
+				final ViewHolder viewHolder = new ViewHolder
+				(
+					(TextView) convertView.findViewById(R.id.location_list_fragment_item_name),
+					(TextView) convertView.findViewById(R.id.location_list_fragment_item_altitude),
+					(TextView) convertView.findViewById(R.id.location_list_fragment_item_latitude),
+					(TextView) convertView.findViewById(R.id.location_list_fragment_item_longitude)
+				);
+
+				convertView.setTag(viewHolder);
+			}
+
+			final SimpleLocation location = locations.get(position);
+			((ViewHolder) convertView.getTag()).setText(location);
+
+			return convertView;
+		}
+
+
+	}
+
+
+
+
+	private final static class ViewHolder
+	{
+
+
+		private TextView name;
+		private TextView altitude;
+		private TextView latitude;
+		private TextView longitude;
+
+
+		private ViewHolder(final TextView name, final TextView altitude, final TextView latitude, final TextView longitude)
+		{
+			this.name = name;
+			this.altitude = altitude;
+			this.latitude = latitude;
+			this.longitude = longitude;
+		}
+
+
+		private void setText(final SimpleLocation location)
+		{
+			name.setText(location.getName());
+			altitude.setText(String.valueOf(location.getAltitude()));
+			latitude.setText(String.valueOf(location.getLatitude()));
+			longitude.setText(String.valueOf(location.getLongitude()));
+		}
+
+
 	}
 
 

@@ -137,7 +137,7 @@ public class SimpleLocation
 	 * @return
 	 * Returns this SimpleLocation object's latitude attribute.
 	 */
-	public double getlatitude()
+	public double getLatitude()
 	{
 		return latitude;
 	}
