@@ -2,6 +2,8 @@ package com.charlesmadere.android.fishnspots.models;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -44,6 +46,7 @@ public class SimpleLocationsDataSource
 	public SimpleLocation createSimpleLocation(final SimpleLocation location)
 	{
 		final ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_NAME, location.getName());
 		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_ALTITUDE, location.getAltitude());
 		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_LATITUDE, location.getLatitude());
 		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_LONGITUDE, location.getLongitude());
@@ -96,6 +99,16 @@ public class SimpleLocationsDataSource
 		}
 
 		cursor.close();
+		simpleLocations.trimToSize();
+
+		Collections.sort(simpleLocations, new Comparator<SimpleLocation>()
+		{
+			@Override
+			public int compare(final SimpleLocation lhs, final SimpleLocation rhs)
+			{
+				return lhs.getName().compareToIgnoreCase(rhs.getName());
+			}
+		});
 
 		return simpleLocations;
 	}

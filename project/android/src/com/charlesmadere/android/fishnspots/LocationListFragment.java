@@ -13,6 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -20,12 +23,13 @@ import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 import com.charlesmadere.android.fishnspots.models.SimpleLocationsDataSource;
 
 
-public class LocationListFragment extends ListFragment
+public class LocationListFragment extends ListFragment implements
+	OnItemClickListener,
+	OnItemLongClickListener
 {
 
 
 	private SimpleLocationsDataSource dataSource;
-	private LocationListAdapter adapter;
 
 
 	/**
@@ -63,9 +67,7 @@ public class LocationListFragment extends ListFragment
 		dataSource = new SimpleLocationsDataSource(getActivity());
 		dataSource.open();
 
-		final ArrayList<SimpleLocation> locations = dataSource.getAllSimpleLocations();
-		adapter = new LocationListAdapter(getActivity(), R.layout.location_list_fragment_item, locations);
-		setListAdapter(adapter);
+		refreshLocationList();
 	}
 
 
@@ -104,6 +106,21 @@ public class LocationListFragment extends ListFragment
 
 
 	@Override
+	public void onItemClick(final AdapterView<?> arg0, final View arg1, final int arg2, final long arg3)
+	{
+		
+	}
+
+
+	@Override
+	public boolean onItemLongClick(final AdapterView<?> arg0, final View arg1, final int arg2, final long arg3)
+	{
+		
+		return false;
+	}
+
+
+	@Override
 	public boolean onOptionsItemSelected(final MenuItem item)
 	{
 		switch (item.getItemId())
@@ -122,10 +139,27 @@ public class LocationListFragment extends ListFragment
 
 
 
+	/**
+	 * Adds a new SimpleLocation to the database.
+	 * 
+	 * @param location
+	 * The SimpleLocation object to be added.
+	 */
 	public void createSimpleLocation(final SimpleLocation location)
 	{
 		dataSource.createSimpleLocation(location);
-		adapter.notifyDataSetChanged();
+		refreshLocationList();
+	}
+
+
+	/**
+	 * Refreshes the list of SimpleLocations so that any new ones will show up
+	 * or so that any old ones will be deleted.
+	 */
+	private void refreshLocationList()
+	{
+		final ArrayList<SimpleLocation> locations = dataSource.getAllSimpleLocations();
+		setListAdapter(new LocationListAdapter(getActivity(), R.layout.location_list_fragment_item, locations));
 	}
 
 

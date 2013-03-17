@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:baselineAligned="false"
 	android:layout_height="wrap_content"
-	android:layout_marginBottom="2dip"
-	android:layout_marginTop="2dip"
 	android:layout_width="match_parent"
+	android:paddingBottom="4dip"
+	android:paddingTop="4dip"
 	android:orientation="horizontal">
 	<LinearLayout
 		android:layout_height="wrap_content"
@@ -17,10 +17,13 @@
 			android:text="@string/name"
 			android:textSize="18sp" />
 		<TextView
+			android:ellipsize="end"
 			android:id="@+id/location_list_fragment_item_name"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="2dip"
 			android:layout_width="match_parent"
+			android:maxLines="1"
+			android:paddingLeft="2dip"
 			android:text="@string/name" />
 		<TextView
 			android:layout_height="wrap_content"
@@ -28,9 +31,12 @@
 			android:text="@string/latitude"
 			android:textSize="18sp" />
 		<TextView
+			android:ellipsize="end"
 			android:id="@+id/location_list_fragment_item_latitude"
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
+			android:maxLines="1"
+			android:paddingLeft="2dip"
 			android:text="@string/latitude"
 			android:typeface="monospace" />
 	</LinearLayout>
@@ -45,10 +51,13 @@
 			android:text="@string/altitude"
 			android:textSize="18sp" />
 		<TextView
+			android:ellipsize="end"
 			android:id="@+id/location_list_fragment_item_altitude"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="2dip"
 			android:layout_width="match_parent"
+			android:maxLines="1"
+			android:paddingLeft="2dip"
 			android:text="@string/altitude"
 			android:typeface="monospace" />
 		<TextView
@@ -57,9 +66,12 @@
 			android:text="@string/longitude"
 			android:textSize="18sp" />
 		<TextView
+			android:ellipsize="end"
 			android:id="@+id/location_list_fragment_item_longitude"
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
+			android:maxLines="1"
+			android:paddingLeft="2dip"
 			android:text="@string/longitude"
 			android:typeface="monospace" />
 	</LinearLayout>
