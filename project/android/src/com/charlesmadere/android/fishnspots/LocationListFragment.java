@@ -159,6 +159,7 @@ public class LocationListFragment extends ListFragment implements
 										dialog.dismiss();
 									}
 								})
+								.setMessage(R.string.are_you_sure_that_you_want_to_delete_this_location)
 								.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener()
 								{
 									@Override
@@ -175,7 +176,6 @@ public class LocationListFragment extends ListFragment implements
 					}
 				}
 			})
-			.setMessage(R.string.are_you_sure_that_you_want_to_delete_this_location)
 			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
 			{
 				@Override
