@@ -1,6 +1,8 @@
 package com.charlesmadere.android.fishnspots;
 
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -11,9 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.charlesmadere.android.fishnspots.models.SimpleLocation;
+import com.charlesmadere.android.fishnspots.models.SimpleLocationsDataSource;
+
 
 public class LocationListFragment extends ListFragment
 {
+
+
+	private SimpleLocationsDataSource dataSource;
 
 
 	/**
@@ -47,6 +55,12 @@ public class LocationListFragment extends ListFragment
 	{
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		dataSource = new SimpleLocationsDataSource(getActivity());
+		dataSource.open();
+
+		final ArrayList<SimpleLocation> locations = dataSource.getAllSimpleLocations();
+		
 	}
 
 
