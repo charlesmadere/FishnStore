@@ -1,4 +1,4 @@
-package com.charlesmadere.android.fishnspots;
+package com.charlesmadere.android.fishnspots.utilities;
 
 
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-import com.charlesmadere.android.fishnspots.utilities.Utilities;
 
 
 public class SQLiteHelper extends SQLiteOpenHelper
@@ -17,8 +16,8 @@ public class SQLiteHelper extends SQLiteOpenHelper
 	private final static String LOG_TAG = Utilities.LOG_TAG + " - SQLiteHelper";
 
 
-	private final static String DATABASE_NAME = "fishnstore.db";
 	private final static int DATABASE_VERSION = 1;
+	private final static String DATABASE_NAME = "fishnspots.db";
 
 
 	public final static String TABLE_SPOTS = "spots";

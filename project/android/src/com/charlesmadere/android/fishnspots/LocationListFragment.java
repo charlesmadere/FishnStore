@@ -17,20 +17,22 @@ public class LocationListFragment extends ListFragment
 
 
 	/**
-	 * 
+	 * Object that allows us to run any of the methods that are defined in the
+	 * FriendsListFragmentListeners interface.
 	 */
 	private LocationListFragmentListeners listeners;
 
 
 	/**
-	 * 
+	 * A bunch of listener methods for this Fragment.
 	 */
 	public interface LocationListFragmentListeners
 	{
 
 
 		/**
-		 * 
+		 * This method will be fired when the user taps the Save Current
+		 * Location button on the Action Bar.
 		 */
 		public void onClickSaveCurrentLocation();
 

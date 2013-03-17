@@ -48,23 +48,25 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 
 	/**
-	 * 
+	 * Object that allows us to run any of the methods that are defined in the
+	 * SaveCurrentLocationListeners interface.
 	 */
 	private SaveCurrentLocationListeners listeners;
 
 
 	/**
-	 * 
+	 * A bunch of listener methods for this Fragment.
 	 */
 	public interface SaveCurrentLocationListeners
 	{
 
 
 		/**
-		 * 
+		 * This is fired whenever the user clicks the Save this Location button
+		 * in this Fragment's layout.
 		 * 
 		 * @param location
-		 * 
+		 * The Location object as found by the Android GPS system.
 		 */
 		public void onLocationSave(final Location location);
 
