@@ -19,7 +19,7 @@
 				android:layout_height="wrap_content"
 				android:layout_width="0dip"
 				android:text="@string/searching_for_location"
-				android:textSize="20sp"
+				android:textSize="24sp"
 				android:layout_weight="1" />
 			<ProgressBar
 				android:id="@+id/save_current_location_fragment_linearlayout_header_progressbar"
@@ -50,7 +50,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
 			android:text="@string/altitude"
-			android:textSize="18sp" />
+			android:textSize="20sp" />
 		<EditText
 			android:enabled="false"
 			android:hint="@string/altitude"
@@ -65,7 +65,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
 			android:text="@string/altitude"
-			android:textSize="18sp" />
+			android:textSize="20sp" />
 		<EditText
 			android:enabled="false"
 			android:hint="@string/latitude"
@@ -80,7 +80,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
 			android:text="@string/longitude"
-			android:textSize="18sp" />
+			android:textSize="20sp" />
 		<EditText
 			android:enabled="false"
 			android:hint="@string/longitude"
