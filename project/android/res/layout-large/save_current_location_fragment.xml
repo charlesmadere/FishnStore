@@ -34,6 +34,7 @@
 		android:baselineAligned="false"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
+		android:layout_marginBottom="16dip"
 		android:orientation="horizontal">
 		<LinearLayout
 			android:layout_height="wrap_content"
@@ -43,7 +44,8 @@
 			<TextView
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
-				android:text="@string/name" />
+				android:text="@string/name"
+				android:textSize="18sp" />
 			<EditText
 				android:hint="@string/name"
 				android:id="@+id/save_current_location_fragment_edittext_name"
@@ -51,41 +53,11 @@
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
 				android:maxLength="255" />
-		</LinearLayout>
-		<LinearLayout
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:layout_width="0dip"
-			android:orientation="vertical">
 			<TextView
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
-				android:text="@string/altitude" />
-			<EditText
-				android:enabled="false"
-				android:hint="@string/altitude"
-				android:id="@+id/save_current_location_fragment_edittext_altitude"
-				android:inputType="numberDecimal"
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:maxLength="255"
-				android:typeface="monospace" />
-		</LinearLayout>
-	</LinearLayout>
-	<LinearLayout
-		android:baselineAligned="false"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:orientation="horizontal">
-		<LinearLayout
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:layout_width="0dip"
-			android:orientation="vertical">
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="@string/altitude" />
+				android:text="@string/latitude"
+				android:textSize="18sp" />
 			<EditText
 				android:enabled="false"
 				android:hint="@string/latitude"
@@ -103,11 +75,30 @@
 			android:layout_width="0dip"
 			android:orientation="vertical">
 			<TextView
+				android:gravity="right"
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
-				android:text="@string/longitude" />
+				android:text="@string/altitude"
+				android:textSize="18sp" />
 			<EditText
 				android:enabled="false"
+				android:gravity="right"
+				android:hint="@string/altitude"
+				android:id="@+id/save_current_location_fragment_edittext_altitude"
+				android:inputType="numberDecimal"
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				android:maxLength="255"
+				android:typeface="monospace" />
+			<TextView
+				android:gravity="right"
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				android:text="@string/longitude"
+				android:textSize="18sp" />
+			<EditText
+				android:enabled="false"
+				android:gravity="right"
 				android:hint="@string/longitude"
 				android:id="@+id/save_current_location_fragment_edittext_longitude"
 				android:inputType="numberDecimal"

@@ -135,9 +135,16 @@ public class MainActivity extends Activity implements
 	@Override
 	public void onLocationSave(final SimpleLocation simpleLocation)
 	{
-		onBackPressed();
+		final FragmentManager fManager = getFragmentManager();
+		fManager.popBackStack();
 
-		
+		final FragmentTransaction fTransaction = fManager.beginTransaction();
+		fTransaction.remove(saveCurrentLocationFragment);
+		fTransaction.commit();
+
+		fManager.executePendingTransactions();
+
+		refreshActionBar();
 	}
 
 
