@@ -49,7 +49,6 @@
 				android:text="@string/name"
 				android:textSize="20sp" />
 			<EditText
-				android:hint="@string/name"
 				android:id="@+id/save_current_location_fragment_edittext_name"
 				android:inputType="textCapWords"
 				android:layout_height="wrap_content"
@@ -63,7 +62,7 @@
 				android:textSize="20sp" />
 			<EditText
 				android:enabled="false"
-				android:hint="@string/latitude"
+				android:hint="@string/loading"
 				android:id="@+id/save_current_location_fragment_edittext_latitude"
 				android:inputType="numberDecimal"
 				android:layout_height="wrap_content"
@@ -87,7 +86,7 @@
 			<EditText
 				android:enabled="false"
 				android:gravity="right"
-				android:hint="@string/altitude"
+				android:hint="@string/loading"
 				android:id="@+id/save_current_location_fragment_edittext_altitude"
 				android:inputType="numberDecimal"
 				android:layout_height="wrap_content"
@@ -104,7 +103,7 @@
 			<EditText
 				android:enabled="false"
 				android:gravity="right"
-				android:hint="@string/longitude"
+				android:hint="@string/loading"
 				android:id="@+id/save_current_location_fragment_edittext_longitude"
 				android:inputType="numberDecimal"
 				android:layout_height="wrap_content"

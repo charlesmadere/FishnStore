@@ -48,6 +48,8 @@ public class MainActivity extends Activity implements
 
 			fTransaction.commit();
 		}
+
+		refreshActionBar();
 	}
 
 
@@ -75,19 +77,34 @@ public class MainActivity extends Activity implements
 	}
 
 
+	/**
+	 * Updates the title shown in the Action Bar as well as whether or not the
+	 * back arrow is showing.
+	 */
 	private void refreshActionBar()
 	{
 		final ActionBar actionBar = getActionBar();
 
-		if (saveCurrentLocationFragment != null && saveCurrentLocationFragment.isVisible())
-		{
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(R.string.save_current_location);
-		}
-		else
+		if (isDeviceLarge())
 		{
 			actionBar.setDisplayHomeAsUpEnabled(false);
 			actionBar.setTitle(R.string.fish_n_spots);
+		}
+		else
+		{
+			try
+			{
+				final FragmentManager fManager = getFragmentManager();
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_container);
+
+				actionBar.setDisplayHomeAsUpEnabled(false);
+				actionBar.setTitle(R.string.fish_n_spots);
+			}
+			catch (final ClassCastException e)
+			{
+				actionBar.setDisplayHomeAsUpEnabled(true);
+				actionBar.setTitle(R.string.save_current_location);
+			}
 		}
 	}
 
@@ -98,6 +115,8 @@ public class MainActivity extends Activity implements
 	public void onClickSaveCurrentLocation()
 	{
 		final FragmentManager fManager = getFragmentManager();
+		final FragmentTransaction fTransaction = fManager.beginTransaction();
+		fTransaction.addToBackStack(null);
 
 		if (locationListFragment == null)
 		{
@@ -115,14 +134,12 @@ public class MainActivity extends Activity implements
 
 		if (isDeviceLarge())
 		{
-			saveCurrentLocationFragment.show(fManager, null);
+			saveCurrentLocationFragment.show(fManager, "dialog");
 		}
 		else
 		{
-			final FragmentTransaction fTransaction = fManager.beginTransaction();
-			fTransaction.hide(locationListFragment);
+			fTransaction.remove(locationListFragment);
 			fTransaction.add(R.id.main_activity_container, saveCurrentLocationFragment);
-			fTransaction.addToBackStack(null);
 			fTransaction.commit();
 
 			fManager.executePendingTransactions();
@@ -137,6 +154,11 @@ public class MainActivity extends Activity implements
 	{
 		final FragmentManager fManager = getFragmentManager();
 		fManager.popBackStack();
+
+		if (saveCurrentLocationFragment == null)
+		{
+			saveCurrentLocationFragment = (SaveCurrentLocationFragment) fManager.findFragmentByTag("dialog");
+		}
 
 		final FragmentTransaction fTransaction = fManager.beginTransaction();
 		fTransaction.remove(saveCurrentLocationFragment);

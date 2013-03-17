@@ -3,6 +3,7 @@
 	<string name="altitude">Altitude</string>
 	<string name="fish_n_spots">Fish \'n\' Spots</string>
 	<string name="latitude">Latitude</string>
+	<string name="loading">Loading&#8230;</string>
 	<string name="location_found">Location Found!</string>
 	<string name="location_list_fragment_no_locations">You have no stored locations!</string>
 	<string name="longitude">Longitude</string>

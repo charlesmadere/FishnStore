@@ -156,33 +156,6 @@ public class SaveCurrentLocationFragment extends DialogFragment
 		editText_latitude.addTextChangedListener(textWatcher);
 		editText_longitude.addTextChangedListener(textWatcher);
 
-		if (savedInstanceState != null && !savedInstanceState.isEmpty())
-		{
-			if (savedInstanceState.containsKey(EDIT_TEXT_NAME_KEY))
-			{
-				final String name = savedInstanceState.getString(EDIT_TEXT_NAME_KEY);
-				editText_name.setText(name);
-			}
-
-			if (savedInstanceState.containsKey(EDIT_TEXT_ALTITUDE_KEY))
-			{
-				final String altitude = savedInstanceState.getString(EDIT_TEXT_ALTITUDE_KEY);
-				editText_name.setText(altitude);
-			}
-
-			if (savedInstanceState.containsKey(EDIT_TEXT_LATITUDE_KEY))
-			{
-				final String latitude = savedInstanceState.getString(EDIT_TEXT_LATITUDE_KEY);
-				editText_name.setText(latitude);
-			}
-
-			if (savedInstanceState.containsKey(EDIT_TEXT_LONGITUDE_KEY))
-			{
-				final String longitude = savedInstanceState.getString(EDIT_TEXT_LONGITUDE_KEY);
-				editText_name.setText(longitude);
-			}
-		}
-
 		button_refresh.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -252,7 +225,37 @@ public class SaveCurrentLocationFragment extends DialogFragment
 			}
 		};
 
-		refreshLocation();
+		if (savedInstanceState != null && !savedInstanceState.isEmpty())
+		{
+			if (savedInstanceState.containsKey(EDIT_TEXT_NAME_KEY))
+			{
+				final String name = savedInstanceState.getString(EDIT_TEXT_NAME_KEY);
+				editText_name.setText(name);
+			}
+
+			if (savedInstanceState.containsKey(EDIT_TEXT_ALTITUDE_KEY)
+				&& savedInstanceState.containsKey(EDIT_TEXT_LATITUDE_KEY)
+				&& savedInstanceState.containsKey(EDIT_TEXT_LONGITUDE_KEY))
+			{
+				final String altitude = savedInstanceState.getString(EDIT_TEXT_ALTITUDE_KEY);
+				final String latitude = savedInstanceState.getString(EDIT_TEXT_LATITUDE_KEY);
+				final String longitude = savedInstanceState.getString(EDIT_TEXT_LONGITUDE_KEY);
+
+				editText_name.setText(altitude);
+				editText_name.setText(latitude);
+				editText_name.setText(longitude);
+			}
+			else
+			{
+				refreshLocation();
+			}
+
+			flushViews();
+		}
+		else
+		{
+			refreshLocation();
+		}
 	}
 
 
