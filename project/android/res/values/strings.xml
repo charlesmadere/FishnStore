@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="altitude">Altitude</string>
+	<string name="cancel">Cancel</string>
+	<string name="delete">Delete</string>
+	<string name="edit">Edit</string>
 	<string name="fish_n_spots">Fish \'n\' Spots</string>
 	<string name="latitude">Latitude</string>
 	<string name="loading">Loading&#8230;</string>
@@ -8,8 +11,11 @@
 	<string name="location_list_fragment_no_locations">You have no stored locations!</string>
 	<string name="longitude">Longitude</string>
 	<string name="name">Name</string>
+	<string name="okay">Okay</string>
 	<string name="refresh">Refresh</string>
 	<string name="save_current_location">Save Current Location</string>
+	<string name="save_location_changes">Save Location Changes</string>
 	<string name="save_this_location">Save this Location</string>
 	<string name="searching_for_location">Searching for Location&#8230;</string>
+	<string name="select_an_action">Select an Action</string>
 </resources>

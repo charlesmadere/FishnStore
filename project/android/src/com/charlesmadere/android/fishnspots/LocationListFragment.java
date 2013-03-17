@@ -4,8 +4,10 @@ package com.charlesmadere.android.fishnspots;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -79,6 +81,16 @@ public class LocationListFragment extends ListFragment implements
 
 
 	@Override
+	public void onActivityCreated(final Bundle savedInstanceState)
+	{
+		super.onActivityCreated(savedInstanceState);
+
+		getListView().setOnItemClickListener(this);
+		getListView().setOnItemLongClickListener(this);
+	}
+
+
+	@Override
 	public void onAttach(final Activity activity)
 	// This makes sure that the Activity containing this Fragment has
 	// implemented the callback interface. If the callback interface has not
@@ -106,17 +118,76 @@ public class LocationListFragment extends ListFragment implements
 
 
 	@Override
-	public void onItemClick(final AdapterView<?> arg0, final View arg1, final int arg2, final long arg3)
+	public void onItemClick(final AdapterView<?> l, final View v, final int position, final long id)
 	{
 		
 	}
 
 
 	@Override
-	public boolean onItemLongClick(final AdapterView<?> arg0, final View arg1, final int arg2, final long arg3)
+	public boolean onItemLongClick(final AdapterView<?> l, final View v, final int position, final long id)
 	{
-		
-		return false;
+		v.setSelected(true);
+
+		final SimpleLocation simpleLocation = (SimpleLocation) l.getItemAtPosition(position);
+		final String[] items = getResources().getStringArray(R.array.location_list_fragment_context_menu);
+		final Context context = getActivity();
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+			.setItems(items, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(final DialogInterface dialog, final int which)
+				{
+					dialog.dismiss();
+
+					switch (which)
+					{
+						case 0:
+						// edit
+							
+							break;
+
+						case 1:
+						// delete
+							final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+								{
+									@Override
+									public void onClick(final DialogInterface dialog, final int which)
+									{
+										dialog.dismiss();
+									}
+								})
+								.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener()
+								{
+									@Override
+									public void onClick(final DialogInterface dialog, final int which)
+									{
+										dialog.dismiss();
+										dataSource.deleteSimpleLocation(simpleLocation);
+									}
+								})
+								.setTitle(R.string.delete);
+
+							builder.show();
+							break;
+					}
+				}
+			})
+			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					dialog.dismiss();
+				}
+			})
+			.setTitle(R.string.select_an_action);
+
+		builder.show();
+
+		return true;
 	}
 
 
