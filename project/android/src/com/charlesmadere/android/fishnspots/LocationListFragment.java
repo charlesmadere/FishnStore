@@ -129,7 +129,7 @@ public class LocationListFragment extends ListFragment implements
 	{
 		v.setSelected(true);
 
-		final SimpleLocation simpleLocation = (SimpleLocation) l.getItemAtPosition(position);
+		final SimpleLocation location = (SimpleLocation) l.getItemAtPosition(position);
 		final String[] items = getResources().getStringArray(R.array.location_list_fragment_context_menu);
 		final Context context = getActivity();
 
@@ -165,7 +165,7 @@ public class LocationListFragment extends ListFragment implements
 									public void onClick(final DialogInterface dialog, final int which)
 									{
 										dialog.dismiss();
-										dataSource.deleteSimpleLocation(simpleLocation);
+										deleteSimpleLocation(location);
 									}
 								})
 								.setTitle(R.string.delete);
@@ -175,6 +175,7 @@ public class LocationListFragment extends ListFragment implements
 					}
 				}
 			})
+			.setMessage(R.string.are_you_sure_that_you_want_to_delete_this_location)
 			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
 			{
 				@Override
@@ -219,6 +220,19 @@ public class LocationListFragment extends ListFragment implements
 	public void createSimpleLocation(final SimpleLocation location)
 	{
 		dataSource.createSimpleLocation(location);
+		refreshLocationList();
+	}
+
+
+	/**
+	 * 
+	 * 
+	 * @param location
+	 * 
+	 */
+	private void deleteSimpleLocation(final SimpleLocation location)
+	{
+		dataSource.deleteSimpleLocation(location);
 		refreshLocationList();
 	}
 

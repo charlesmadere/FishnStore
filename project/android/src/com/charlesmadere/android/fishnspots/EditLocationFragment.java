@@ -45,10 +45,10 @@ public class EditLocationFragment extends DialogFragment
 		/**
 		 * 
 		 * 
-		 * @param simpleLocation
+		 * @param location
 		 * 
 		 */
-		public void onLocationSave(final SimpleLocation simpleLocation);
+		public void onLocationSave(final SimpleLocation location);
 
 
 	}
