@@ -23,13 +23,22 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.charlesmadere.android.fishnspots.models.SimpleLocation;
+
 
 public class SaveCurrentLocationFragment extends DialogFragment
 {
 
 
+	private final static String EDIT_TEXT_NAME_KEY = "EDIT_TEXT_NAME_KEY";
+	private final static String EDIT_TEXT_ALTITUDE_KEY = "EDIT_TEXT_ALTITUDE_KEY";
+	private final static String EDIT_TEXT_LATITUDE_KEY = "EDIT_TEXT_LATITUDE_KEY";
+	private final static String EDIT_TEXT_LONGITUDE_KEY = "EDIT_TEXT_LONGITUDE_KEY";
+
+
 	private TextView textView_header;
 	private EditText editText_name;
+	private EditText editText_altitude;
 	private EditText editText_latitude;
 	private EditText editText_longitude;
 	private ProgressBar progressBar_header;
@@ -65,10 +74,11 @@ public class SaveCurrentLocationFragment extends DialogFragment
 		 * This is fired whenever the user clicks the Save this Location button
 		 * in this Fragment's layout.
 		 * 
-		 * @param location
-		 * The Location object as found by the Android GPS system.
+		 * @param simpleLocation
+		 * The SimpleLocation object as created from the Location object which
+		 * was found by the Android GPS system.
 		 */
-		public void onLocationSave(final Location location);
+		public void onLocationSave(final SimpleLocation simpleLocation);
 
 
 	}
@@ -115,7 +125,8 @@ public class SaveCurrentLocationFragment extends DialogFragment
 			{
 				findViews();
 
-				if (editText_name.length() >= 1 && editText_latitude.length() >= 1 && editText_longitude.length() >= 1)
+				if (editText_name.length() >= 1 && editText_altitude.length() >= 1
+					&& editText_latitude.length() >= 1 && editText_longitude.length() >= 1)
 				{
 					button_saveThisLocation.setEnabled(true);
 				}
@@ -141,8 +152,36 @@ public class SaveCurrentLocationFragment extends DialogFragment
 		};
 
 		editText_name.addTextChangedListener(textWatcher);
+		editText_altitude.addTextChangedListener(textWatcher);
 		editText_latitude.addTextChangedListener(textWatcher);
 		editText_longitude.addTextChangedListener(textWatcher);
+
+		if (savedInstanceState != null && !savedInstanceState.isEmpty())
+		{
+			if (savedInstanceState.containsKey(EDIT_TEXT_NAME_KEY))
+			{
+				final String name = savedInstanceState.getString(EDIT_TEXT_NAME_KEY);
+				editText_name.setText(name);
+			}
+
+			if (savedInstanceState.containsKey(EDIT_TEXT_ALTITUDE_KEY))
+			{
+				final String altitude = savedInstanceState.getString(EDIT_TEXT_ALTITUDE_KEY);
+				editText_name.setText(altitude);
+			}
+
+			if (savedInstanceState.containsKey(EDIT_TEXT_LATITUDE_KEY))
+			{
+				final String latitude = savedInstanceState.getString(EDIT_TEXT_LATITUDE_KEY);
+				editText_name.setText(latitude);
+			}
+
+			if (savedInstanceState.containsKey(EDIT_TEXT_LONGITUDE_KEY))
+			{
+				final String longitude = savedInstanceState.getString(EDIT_TEXT_LONGITUDE_KEY);
+				editText_name.setText(longitude);
+			}
+		}
 
 		button_refresh.setOnClickListener(new View.OnClickListener()
 		{
@@ -153,6 +192,23 @@ public class SaveCurrentLocationFragment extends DialogFragment
 				{
 					refreshLocation();
 				}
+			}
+		});
+
+		button_saveThisLocation.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View v)
+			{
+				final SimpleLocation simpleLocation = new SimpleLocation
+				(
+					editText_name.getText().toString(),
+					Double.valueOf(editText_altitude.getText().toString()).doubleValue(),
+					Double.valueOf(editText_latitude.getText().toString()).doubleValue(),
+					Double.valueOf(editText_longitude.getText().toString()).doubleValue()
+				);
+
+				listeners.onLocationSave(simpleLocation);
 			}
 		});
 
@@ -167,40 +223,32 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 				findViews();
 
+				editText_altitude.setText(String.valueOf(location.getAltitude()));
 				editText_latitude.setText(String.valueOf(location.getLatitude()));
 				editText_longitude.setText(String.valueOf(location.getLongitude()));
 
 				flushViews();
-
-				button_saveThisLocation.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(final View v)
-					{
-						listeners.onLocationSave(location);
-					}
-				});
 			}
 
 
 			@Override
 			public void onProviderDisabled(final String provider)
 			{
-				
+
 			}
 
 
 			@Override
 			public void onProviderEnabled(final String provider)
 			{
-				
+
 			}
 
 
 			@Override
 			public void onStatusChanged(final String provider, final int status, final Bundle extras)
 			{
-				
+
 			}
 		};
 
@@ -236,6 +284,33 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 
 	@Override
+	public void onSaveInstanceState(final Bundle outState)
+	{
+		if (editText_name != null && editText_name.length() >= 1)
+		{
+			outState.putString(EDIT_TEXT_NAME_KEY, editText_name.getText().toString());
+		}
+
+		if (editText_altitude != null && editText_altitude.length() >= 1)
+		{
+			outState.putString(EDIT_TEXT_ALTITUDE_KEY, editText_altitude.getText().toString());
+		}
+
+		if (editText_latitude != null && editText_latitude.length() >= 1)
+		{
+			outState.putString(EDIT_TEXT_LATITUDE_KEY, editText_latitude.getText().toString());
+		}
+
+		if (editText_longitude != null && editText_longitude.length() >= 1)
+		{
+			outState.putString(EDIT_TEXT_LONGITUDE_KEY, editText_longitude.getText().toString());
+		}
+
+		super.onSaveInstanceState(outState);
+	}
+
+
+	@Override
 	public boolean onOptionsItemSelected(final MenuItem item)
 	{
 		switch (item.getItemId())
@@ -262,14 +337,15 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	 */
 	private void findViews()
 	{
-		if (textView_header == null || editText_name == null || editText_latitude == null
-			|| editText_longitude == null || progressBar_header == null || button_refresh == null
-			|| button_saveThisLocation == null)
+		if (textView_header == null || editText_name == null || editText_altitude == null
+			|| editText_latitude == null || editText_longitude == null || progressBar_header == null
+			|| button_refresh == null || button_saveThisLocation == null)
 		{
 			final View view = getView();
 
 			textView_header = (TextView) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_textview);
 			editText_name = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_name);
+			editText_altitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_altitude);
 			editText_latitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_latitude);
 			editText_longitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_longitude);
 			progressBar_header = (ProgressBar) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_progressbar);
@@ -294,6 +370,9 @@ public class SaveCurrentLocationFragment extends DialogFragment
 			progressBar_header.setVisibility(View.VISIBLE);
 			button_refresh.setVisibility(View.GONE);
 
+			editText_altitude.setText(null);
+			editText_altitude.setEnabled(false);
+
 			editText_latitude.setText(null);
 			editText_latitude.setEnabled(false);
 
@@ -306,6 +385,7 @@ public class SaveCurrentLocationFragment extends DialogFragment
 			progressBar_header.setVisibility(View.GONE);
 			button_refresh.setVisibility(View.VISIBLE);
 
+			editText_altitude.setEnabled(true);
 			editText_latitude.setEnabled(true);
 			editText_longitude.setEnabled(true);
 		}

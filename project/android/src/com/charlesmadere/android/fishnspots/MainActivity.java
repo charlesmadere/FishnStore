@@ -5,8 +5,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.location.Location;
 import android.os.Bundle;
+
+import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 
 
 /**
@@ -132,12 +133,11 @@ public class MainActivity extends Activity implements
 
 
 	@Override
-	public void onLocationSave(final Location location)
+	public void onLocationSave(final SimpleLocation simpleLocation)
 	{
-		if (saveCurrentLocationFragment != null && saveCurrentLocationFragment.isVisible())
-		{
-			onBackPressed();
-		}
+		onBackPressed();
+
+		
 	}
 
 

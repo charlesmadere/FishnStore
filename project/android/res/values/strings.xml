@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="altitude">Altitude</string>
 	<string name="fish_n_spots">Fish \'n\' Spots</string>
 	<string name="latitude">Latitude</string>
 	<string name="location_found">Location Found!</string>

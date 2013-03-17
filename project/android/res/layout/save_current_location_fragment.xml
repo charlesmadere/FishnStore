@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content"
 	android:layout_width="match_parent"
-	style="@style/FishnStore">"
+	style="@style/FishnStore">
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
@@ -48,7 +48,21 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:text="@string/latitude" />
+			android:text="@string/altitude" />
+		<EditText
+			android:enabled="false"
+			android:hint="@string/altitude"
+			android:id="@+id/save_current_location_fragment_edittext_altitude"
+			android:inputType="numberDecimal"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dip"
+			android:layout_width="match_parent"
+			android:maxLength="255"
+			android:typeface="monospace" />
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="@string/altitude" />
 		<EditText
 			android:enabled="false"
 			android:hint="@string/latitude"
