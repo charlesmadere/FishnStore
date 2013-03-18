@@ -153,4 +153,17 @@ public class SimpleLocation
 	}
 
 
+	/**
+	 * Checks to see if this SimpleLocation object has a valid ID. An ID that
+	 * is valid is not equal to Long.MIN_VALUE.
+	 * 
+	 * @return
+	 * Returns true if this SimpleLocation object has a valid ID.
+	 */
+	public boolean hasValidId()
+	{
+		return id != Long.MIN_VALUE;
+	}
+
+
 }

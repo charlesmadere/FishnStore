@@ -3,6 +3,7 @@
 	<string name="altitude">Altitude</string>
 	<string name="are_you_sure_that_you_want_to_delete_this_location">Are you sure that you want to delete this location?</string>
 	<string name="cancel">Cancel</string>
+	<string name="create_location">Create Location</string>
 	<string name="delete">Delete</string>
 	<string name="edit">Edit</string>
 	<string name="fish_n_spots">Fish \'n\' Spots</string>
@@ -10,13 +11,12 @@
 	<string name="loading">Loading&#8230;</string>
 	<string name="location_found">Location Found!</string>
 	<string name="location_list_fragment_no_locations">You have no stored locations!</string>
+	<string name="location_x">Location $1%s</string>
 	<string name="longitude">Longitude</string>
 	<string name="name">Name</string>
 	<string name="okay">Okay</string>
 	<string name="refresh">Refresh</string>
-	<string name="save_current_location">Save Current Location</string>
-	<string name="save_location_changes">Save Location Changes</string>
-	<string name="save_this_location">Save this Location</string>
 	<string name="searching_for_location">Searching for Location&#8230;</string>
 	<string name="select_an_action">Select an Action</string>
+	<string name="update_location">Update Location</string>
 </resources>

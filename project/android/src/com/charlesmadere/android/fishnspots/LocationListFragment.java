@@ -31,6 +31,9 @@ public class LocationListFragment extends ListFragment implements
 {
 
 
+	/**
+	 * Object that maintains a connection to the database.
+	 */
 	private SimpleLocationsDataSource dataSource;
 
 
@@ -52,7 +55,28 @@ public class LocationListFragment extends ListFragment implements
 		 * This method will be fired when the user taps the Save Current
 		 * Location button on the Action Bar.
 		 */
-		public void onClickSaveCurrentLocation();
+		public void onClickCreateLocation();
+
+
+		/**
+		 * This method will be fired when the user taps the Edit item on one of
+		 * the popup context menus for a SimpleLocation in the list of
+		 * SimpleLocations.
+		 * 
+		 * @param location
+		 * The SimpleLocation that the user has decided to edit.
+		 */
+		public void onClickUpdateLocation(final SimpleLocation location);
+
+
+		/**
+		 * This method will be fired when the user taps a SimpleLocation in
+		 * their list of SimpleLocations.
+		 * 
+		 * @param location
+		 * The SimpleLocation that the user tapped.
+		 */
+		public void onClickViewLocation(final SimpleLocation location);
 
 
 	}
@@ -197,8 +221,8 @@ public class LocationListFragment extends ListFragment implements
 	{
 		switch (item.getItemId())
 		{
-			case R.id.location_list_fragment_menu_save_current_location:
-				listeners.onClickSaveCurrentLocation();
+			case R.id.location_list_fragment_menu_create_location:
+				listeners.onClickCreateLocation();
 				break;
 
 			default:
@@ -225,15 +249,34 @@ public class LocationListFragment extends ListFragment implements
 
 
 	/**
-	 * 
+	 * Edits an existing SimpleLocation and updates its data in the database.
 	 * 
 	 * @param location
+	 * The SimpleLocation object to be updated.
+	 */
+	public void editSimpleLocation(final SimpleLocation location)
+	{
+		if (location.hasValidId())
+		{
+			dataSource.editSimpleLocation(location);
+			refreshLocationList();
+		}
+	}
+
+
+	/**
+	 * Deletes an existing SimpleLocation from the database.
 	 * 
+	 * @param location
+	 * The SimpleLocation object to be deleted.
 	 */
 	private void deleteSimpleLocation(final SimpleLocation location)
 	{
-		dataSource.deleteSimpleLocation(location);
-		refreshLocationList();
+		if (location.hasValidId())
+		{
+			dataSource.deleteSimpleLocation(location);
+			refreshLocationList();
+		}
 	}
 
 

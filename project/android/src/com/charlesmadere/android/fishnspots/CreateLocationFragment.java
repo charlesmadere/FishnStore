@@ -26,16 +26,22 @@ import android.widget.TextView;
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 
 
-public class SaveCurrentLocationFragment extends DialogFragment
+public class CreateLocationFragment extends DialogFragment
 {
 
 
-	public final static String TAG = "SaveCurrentLocationFragment";
+	public final static String TAG = "CreateLocationFragment";
 
+
+	// these values are used to restore the values of the Fragment's EditText
+	// layout items when the Fragment is destroyed / recreated on orientation
+	// changes
 	private final static String EDIT_TEXT_NAME_KEY = "EDIT_TEXT_NAME_KEY";
 	private final static String EDIT_TEXT_ALTITUDE_KEY = "EDIT_TEXT_ALTITUDE_KEY";
 	private final static String EDIT_TEXT_LATITUDE_KEY = "EDIT_TEXT_LATITUDE_KEY";
 	private final static String EDIT_TEXT_LONGITUDE_KEY = "EDIT_TEXT_LONGITUDE_KEY";
+
+
 
 
 	private TextView textView_header;
@@ -60,15 +66,15 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 	/**
 	 * Object that allows us to run any of the methods that are defined in the
-	 * SaveCurrentLocationListeners interface.
+	 * CreateLocationListeners interface.
 	 */
-	private SaveCurrentLocationListeners listeners;
+	private CreateLocationListeners listeners;
 
 
 	/**
 	 * A bunch of listener methods for this Fragment.
 	 */
-	public interface SaveCurrentLocationListeners
+	public interface CreateLocationListeners
 	{
 
 
@@ -80,7 +86,7 @@ public class SaveCurrentLocationFragment extends DialogFragment
 		 * The SimpleLocation object as created from the Location object which
 		 * was found by the Android GPS system.
 		 */
-		public void onLocationSave(final SimpleLocation simpleLocation);
+		public void onLocationCreate(final SimpleLocation simpleLocation);
 
 
 	}
@@ -109,7 +115,7 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.save_current_location_fragment, container, false);
+		return inflater.inflate(R.layout.create_location_fragment, container, false);
 	}
 
 
@@ -183,7 +189,7 @@ public class SaveCurrentLocationFragment extends DialogFragment
 					Double.valueOf(editText_longitude.getText().toString()).doubleValue()
 				);
 
-				listeners.onLocationSave(simpleLocation);
+				listeners.onLocationCreate(simpleLocation);
 			}
 		});
 
@@ -271,7 +277,7 @@ public class SaveCurrentLocationFragment extends DialogFragment
 
 		try
 		{
-			listeners = (SaveCurrentLocationListeners) activity;
+			listeners = (CreateLocationListeners) activity;
 		}
 		catch (final ClassCastException e)
 		{
@@ -283,7 +289,7 @@ public class SaveCurrentLocationFragment extends DialogFragment
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
-		menu.removeItem(R.id.location_list_fragment_menu_save_current_location);
+		menu.removeItem(R.id.location_list_fragment_menu_create_location);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -348,14 +354,14 @@ public class SaveCurrentLocationFragment extends DialogFragment
 		{
 			final View view = getView();
 
-			textView_header = (TextView) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_textview);
-			editText_name = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_name);
-			editText_altitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_altitude);
-			editText_latitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_latitude);
-			editText_longitude = (EditText) view.findViewById(R.id.save_current_location_fragment_edittext_longitude);
-			progressBar_header = (ProgressBar) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_progressbar);
-			button_refresh = (Button) view.findViewById(R.id.save_current_location_fragment_linearlayout_header_button);
-			button_saveThisLocation = (Button) view.findViewById(R.id.save_current_location_fragment_button_save_current_location);
+			textView_header = (TextView) view.findViewById(R.id.create_location_fragment_linearlayout_header_textview);
+			editText_name = (EditText) view.findViewById(R.id.create_location_fragment_edittext_name);
+			editText_altitude = (EditText) view.findViewById(R.id.create_location_fragment_edittext_altitude);
+			editText_latitude = (EditText) view.findViewById(R.id.create_location_fragment_edittext_latitude);
+			editText_longitude = (EditText) view.findViewById(R.id.create_location_fragment_edittext_longitude);
+			progressBar_header = (ProgressBar) view.findViewById(R.id.create_location_fragment_linearlayout_header_progressbar);
+			button_refresh = (Button) view.findViewById(R.id.create_location_fragment_linearlayout_header_button);
+			button_saveThisLocation = (Button) view.findViewById(R.id.create_location_fragment_button_create_location);
 		}
 	}
 

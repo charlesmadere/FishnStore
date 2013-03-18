@@ -3,6 +3,8 @@ package com.charlesmadere.android.fishnspots;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -14,13 +16,16 @@ import com.charlesmadere.android.fishnspots.models.SimpleLocation;
  * This class is the app's entry point.
  */
 public class MainActivity extends Activity implements
+	UpdateLocationFragment.UpdateLocationFragmentListeners,
 	LocationListFragment.LocationListFragmentListeners,
-	SaveCurrentLocationFragment.SaveCurrentLocationListeners
+	CreateLocationFragment.CreateLocationListeners
 {
 
 
+	private CreateLocationFragment createLocationFragment;
 	private LocationListFragment locationListFragment;
-	private SaveCurrentLocationFragment saveCurrentLocationFragment;
+	private UpdateLocationFragment editLocationFragment;
+	private ViewLocationFragment viewLocationFragment;
 
 
 
@@ -78,6 +83,47 @@ public class MainActivity extends Activity implements
 
 
 	/**
+	 * 
+	 * 
+	 * @param fragment
+	 * 
+	 * 
+	 * @param tag
+	 * 
+	 */
+	private void onLocationUpdate(Fragment fragment, final String tag)
+	{
+		final FragmentManager fManager = getFragmentManager();
+		fManager.popBackStack();
+
+		if (fragment == null)
+		{
+			fragment = fManager.findFragmentByTag(tag);
+		}
+
+		final FragmentTransaction fTransaction = fManager.beginTransaction();
+		fTransaction.remove(fragment);
+		fTransaction.commit();
+
+		fManager.executePendingTransactions();
+
+		if (locationListFragment == null)
+		{
+			if (isDeviceLarge())
+			{
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_fragment_location_list_fragment);
+			}
+			else
+			{
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_container);
+			}
+		}
+
+		refreshActionBar();
+	}
+
+
+	/**
 	 * Updates the title shown in the Action Bar as well as whether or not the
 	 * back arrow is showing.
 	 */
@@ -92,6 +138,8 @@ public class MainActivity extends Activity implements
 		}
 		else
 		{
+			// TODO
+			// set up showing titles for other fragments
 			try
 			{
 				final FragmentManager fManager = getFragmentManager();
@@ -103,16 +151,25 @@ public class MainActivity extends Activity implements
 			catch (final ClassCastException e)
 			{
 				actionBar.setDisplayHomeAsUpEnabled(true);
-				actionBar.setTitle(R.string.save_current_location);
+				actionBar.setTitle(R.string.create_location);
 			}
 		}
 	}
 
 
-
-
-	@Override
-	public void onClickSaveCurrentLocation()
+	/**
+	 * 
+	 * 
+	 * @param fragment
+	 * 
+	 * 
+	 * @param tag
+	 * 
+	 * 
+	 * @param bundle
+	 * 
+	 */
+	private void transitionToFragment(DialogFragment fragment, final String tag, final Bundle bundle)
 	{
 		final FragmentManager fManager = getFragmentManager();
 		final FragmentTransaction fTransaction = fManager.beginTransaction();
@@ -130,57 +187,79 @@ public class MainActivity extends Activity implements
 			}
 		}
 
-		saveCurrentLocationFragment = new SaveCurrentLocationFragment();
+		fragment = new DialogFragment();
+
+		if (bundle != null)
+		{
+			fragment.setArguments(bundle);
+		}
 
 		if (isDeviceLarge())
 		{
-			saveCurrentLocationFragment.show(fManager, SaveCurrentLocationFragment.TAG);
+			fragment.show(fManager, CreateLocationFragment.TAG);
 		}
 		else
 		{
 			fTransaction.remove(locationListFragment);
-			fTransaction.add(R.id.main_activity_container, saveCurrentLocationFragment);
+			fTransaction.add(R.id.main_activity_container, fragment);
 			fTransaction.commit();
 
 			fManager.executePendingTransactions();
+			refreshActionBar();
 		}
+	}
 
-		refreshActionBar();
+
+
+
+	@Override
+	public void onClickCreateLocation()
+	{
+		transitionToFragment(createLocationFragment, CreateLocationFragment.TAG, null);
 	}
 
 
 	@Override
-	public void onLocationSave(final SimpleLocation location)
+	public void onClickUpdateLocation(final SimpleLocation location)
 	{
-		final FragmentManager fManager = getFragmentManager();
-		fManager.popBackStack();
+		final Bundle bundle = new Bundle();
+		bundle.putLong(UpdateLocationFragment.KEY_LOCATION_ID, location.getId());
+		bundle.putString(UpdateLocationFragment.KEY_LOCATION_NAME, location.getName());
+		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_ALTITUDE, location.getAltitude());
+		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LATITUDE, location.getLatitude());
+		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LONGITUDE, location.getLongitude());
 
-		if (saveCurrentLocationFragment == null)
-		{
-			saveCurrentLocationFragment = (SaveCurrentLocationFragment) fManager.findFragmentByTag(SaveCurrentLocationFragment.TAG);
-		}
+		transitionToFragment(editLocationFragment, UpdateLocationFragment.TAG, bundle);
+	}
 
-		final FragmentTransaction fTransaction = fManager.beginTransaction();
-		fTransaction.remove(saveCurrentLocationFragment);
-		fTransaction.commit();
 
-		fManager.executePendingTransactions();
+	@Override
+	public void onClickViewLocation(final SimpleLocation location)
+	{
+		final Bundle bundle = new Bundle();
+		bundle.putLong(ViewLocationFragment.KEY_LOCATION_ID, location.getId());
+		bundle.putString(ViewLocationFragment.KEY_LOCATION_NAME, location.getName());
+		bundle.putDouble(ViewLocationFragment.KEY_LOCATION_ALTITUDE, location.getAltitude());
+		bundle.putDouble(ViewLocationFragment.KEY_LOCATION_LATITUDE, location.getLatitude());
+		bundle.putDouble(ViewLocationFragment.KEY_LOCATION_LONGITUDE, location.getLongitude());
 
-		if (locationListFragment == null)
-		{
-			if (isDeviceLarge())
-			{
-				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_fragment_location_list_fragment);
-			}
-			else
-			{
-				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_container);
-			}
-		}
+		transitionToFragment(viewLocationFragment, ViewLocationFragment.TAG, bundle);
+	}
 
+
+	@Override
+	public void onLocationCreate(final SimpleLocation location)
+	{
+		onLocationUpdate(createLocationFragment, CreateLocationFragment.TAG);
 		locationListFragment.createSimpleLocation(location);
+	}
 
-		refreshActionBar();
+
+	@Override
+	public void onLocationUpdate(final SimpleLocation location)
+	{
+		onLocationUpdate(editLocationFragment, UpdateLocationFragment.TAG);
+		locationListFragment.editSimpleLocation(location);
 	}
 
 

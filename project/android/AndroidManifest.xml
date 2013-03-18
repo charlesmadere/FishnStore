@@ -26,10 +26,6 @@
 					android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
-		<activity
-			android:name=".SaveCurrentLocationFragment"
-			android:label="@string/save_current_location" />
 	</application>
 
 </manifest>

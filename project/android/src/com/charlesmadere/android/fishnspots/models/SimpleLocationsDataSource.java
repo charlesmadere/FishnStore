@@ -25,6 +25,8 @@ public class SimpleLocationsDataSource
 	private DatabaseHelper dbHelper;
 
 
+
+
 	public SimpleLocationsDataSource(final Context context)
 	{
 		dbHelper = new DatabaseHelper(context);
@@ -77,10 +79,9 @@ public class SimpleLocationsDataSource
 	}
 
 
-	public void deleteSimpleLocation(final SimpleLocation simpleLocation)
+	public void deleteSimpleLocation(final SimpleLocation location)
 	{
-		final long id = simpleLocation.getId();
-		db.delete(DatabaseHelper.TABLE_LOCATIONS, DatabaseHelper.TABLE_LOCATIONS_COLUMN_ID + " = " + id, null);
+		db.delete(DatabaseHelper.TABLE_LOCATIONS, DatabaseHelper.TABLE_LOCATIONS_COLUMN_ID + " = " + location.getId(), null);
 	}
 
 
@@ -111,6 +112,19 @@ public class SimpleLocationsDataSource
 		});
 
 		return simpleLocations;
+	}
+
+
+	public void editSimpleLocation(final SimpleLocation location)
+	{
+		final ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_ID, location.getId());
+		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_NAME, location.getName());
+		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_ALTITUDE, location.getAltitude());
+		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_LATITUDE, location.getLatitude());
+		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_LONGITUDE, location.getLongitude());
+
+		db.update(DatabaseHelper.TABLE_LOCATIONS, values, DatabaseHelper.TABLE_LOCATIONS_COLUMN_ID + " = " + location.getId(), null);
 	}
 
 
