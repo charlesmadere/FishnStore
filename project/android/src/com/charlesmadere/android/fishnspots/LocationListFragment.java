@@ -169,7 +169,7 @@ public class LocationListFragment extends ListFragment implements
 					{
 						case 0:
 						// edit
-							
+							listeners.onClickUpdateLocation(location);
 							break;
 
 						case 1:

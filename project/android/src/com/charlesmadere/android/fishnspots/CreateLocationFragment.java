@@ -181,15 +181,15 @@ public class CreateLocationFragment extends DialogFragment
 			@Override
 			public void onClick(final View v)
 			{
-				final SimpleLocation simpleLocation = new SimpleLocation
+				final SimpleLocation location = new SimpleLocation
 				(
 					editText_name.getText().toString(),
-					Double.valueOf(editText_altitude.getText().toString()).doubleValue(),
-					Double.valueOf(editText_latitude.getText().toString()).doubleValue(),
-					Double.valueOf(editText_longitude.getText().toString()).doubleValue()
+					editText_altitude.getText().toString(),
+					editText_latitude.getText().toString(),
+					editText_longitude.getText().toString()
 				);
 
-				listeners.onLocationCreate(simpleLocation);
+				listeners.onLocationCreate(location);
 			}
 		});
 

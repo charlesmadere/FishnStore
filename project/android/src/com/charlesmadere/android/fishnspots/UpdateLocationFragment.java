@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +36,13 @@ public class UpdateLocationFragment extends DialogFragment
 	private EditText editText_altitude;
 	private EditText editText_latitude;
 	private EditText editText_longitude;
-	private Button button_saveLocationChanges;
+	private Button button_updateLocation;
 
 
 	/**
 	 * The SimpleLocation object that this Fragment will be updating.
 	 */
-	private SimpleLocation simpleLocation;
+	private SimpleLocation location;
 
 
 	/**
@@ -102,7 +104,7 @@ public class UpdateLocationFragment extends DialogFragment
 	{
 		super.onActivityCreated(savedInstanceState);
 
-		simpleLocation = new SimpleLocation
+		location = new SimpleLocation
 		(
 			savedInstanceState.getLong(KEY_LOCATION_ID),
 			savedInstanceState.getString(KEY_LOCATION_NAME),
@@ -110,6 +112,61 @@ public class UpdateLocationFragment extends DialogFragment
 			savedInstanceState.getDouble(KEY_LOCATION_LATITUDE),
 			savedInstanceState.getDouble(KEY_LOCATION_LONGITUDE)
 		);
+
+		findViews();
+
+		final TextWatcher textWatcher = new TextWatcher()
+		{
+			@Override
+			public void afterTextChanged(final Editable s)
+			{
+				findViews();
+
+				if (editText_name.length() >= 1 && editText_altitude.length() >= 1
+					&& editText_latitude.length() >= 1 && editText_longitude.length() >= 1)
+				{
+					button_updateLocation.setEnabled(true);
+				}
+				else
+				{
+					button_updateLocation.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after)
+			{
+
+			}
+
+
+			@Override
+			public void onTextChanged(final CharSequence s, final int start, final int before, final int count)
+			{
+
+			}
+		};
+
+		editText_name.addTextChangedListener(textWatcher);
+		editText_altitude.addTextChangedListener(textWatcher);
+		editText_latitude.addTextChangedListener(textWatcher);
+		editText_longitude.addTextChangedListener(textWatcher);
+
+		button_updateLocation.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View v)
+			{
+				location.setName(editText_name.getText().toString());
+				location.setAltitude(editText_altitude.getText().toString());
+				location.setLatitude(editText_latitude.getText().toString());
+				location.setLongitude(editText_longitude.getText().toString());
+
+				listeners.onLocationUpdate(location);
+			}
+		});
+
+		flushViews();
 	}
 
 
@@ -129,6 +186,43 @@ public class UpdateLocationFragment extends DialogFragment
 		{
 			throw new ClassCastException(activity.toString() + " must implement listeners!");
 		}
+	}
+
+
+
+
+	/**
+	 * Checks to see if all of the layout items that we're using from this
+	 * class's layout have been found (and are not null). If any single one has
+	 * not been found (and is therefore null), then this method will find every
+	 * single layout item.
+	 */
+	private void findViews()
+	{
+		if (editText_name == null || editText_altitude == null || editText_latitude == null
+			|| editText_longitude == null || button_updateLocation == null)
+		{
+			final View view = getView();
+
+			editText_name = (EditText) view.findViewById(R.id.update_location_fragment_edittext_name);
+			editText_altitude = (EditText) view.findViewById(R.id.update_location_fragment_edittext_altitude);
+			editText_latitude = (EditText) view.findViewById(R.id.update_location_fragment_edittext_latitude);
+			editText_longitude = (EditText) view.findViewById(R.id.update_location_fragment_edittext_longitude);
+			button_updateLocation = (Button) view.findViewById(R.id.update_location_fragment_button_update_location);
+		}
+	}
+
+
+	/**
+	 * Sets the text for all of this layout's TextView item's to the
+	 * actual data in the SimpleLocation object.
+	 */
+	private void flushViews()
+	{
+		editText_name.setText(location.getName());
+		editText_altitude.setText(String.valueOf(location.getAltitude()));
+		editText_latitude.setText(String.valueOf(location.getLatitude()));
+		editText_longitude.setText(String.valueOf(location.getLongitude()));
 	}
 
 

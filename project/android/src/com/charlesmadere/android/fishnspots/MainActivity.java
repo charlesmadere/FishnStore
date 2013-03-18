@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 
@@ -16,15 +17,15 @@ import com.charlesmadere.android.fishnspots.models.SimpleLocation;
  * This class is the app's entry point.
  */
 public class MainActivity extends Activity implements
-	UpdateLocationFragment.UpdateLocationFragmentListeners,
+	CreateLocationFragment.CreateLocationListeners,
 	LocationListFragment.LocationListFragmentListeners,
-	CreateLocationFragment.CreateLocationListeners
+	UpdateLocationFragment.UpdateLocationFragmentListeners
 {
 
 
 	private CreateLocationFragment createLocationFragment;
 	private LocationListFragment locationListFragment;
-	private UpdateLocationFragment editLocationFragment;
+	private UpdateLocationFragment updateLocationFragment;
 	private ViewLocationFragment viewLocationFragment;
 
 
@@ -66,6 +67,23 @@ public class MainActivity extends Activity implements
 	}
 
 
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				onBackPressed();
+				break;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+
+		return true;
+	}
+
+
 
 
 	/**
@@ -79,47 +97,6 @@ public class MainActivity extends Activity implements
 	private boolean isDeviceLarge()
 	{
 		return findViewById(R.id.main_activity_container) == null;
-	}
-
-
-	/**
-	 * 
-	 * 
-	 * @param fragment
-	 * 
-	 * 
-	 * @param tag
-	 * 
-	 */
-	private void onLocationUpdate(Fragment fragment, final String tag)
-	{
-		final FragmentManager fManager = getFragmentManager();
-		fManager.popBackStack();
-
-		if (fragment == null)
-		{
-			fragment = fManager.findFragmentByTag(tag);
-		}
-
-		final FragmentTransaction fTransaction = fManager.beginTransaction();
-		fTransaction.remove(fragment);
-		fTransaction.commit();
-
-		fManager.executePendingTransactions();
-
-		if (locationListFragment == null)
-		{
-			if (isDeviceLarge())
-			{
-				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_fragment_location_list_fragment);
-			}
-			else
-			{
-				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_container);
-			}
-		}
-
-		refreshActionBar();
 	}
 
 
@@ -158,16 +135,62 @@ public class MainActivity extends Activity implements
 
 
 	/**
-	 * 
+	 * Transitions from the currently being shown Fragment back to the
+	 * LocationList Fragment.
 	 * 
 	 * @param fragment
-	 * 
+	 * The Fragment currently being shown.
 	 * 
 	 * @param tag
+	 * The tag to refer to the Fragment by.
+	 */
+	private void transitionBackToLocationList(Fragment fragment, final String tag)
+	{
+		final FragmentManager fManager = getFragmentManager();
+		fManager.popBackStack();
+
+		if (fragment == null)
+		{
+			fragment = fManager.findFragmentByTag(tag);
+		}
+
+		final FragmentTransaction fTransaction = fManager.beginTransaction();
+		fTransaction.remove(fragment);
+		fTransaction.commit();
+
+		fManager.executePendingTransactions();
+
+		if (locationListFragment == null)
+		{
+			if (isDeviceLarge())
+			{
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_fragment_location_list_fragment);
+			}
+			else
+			{
+				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_container);
+			}
+		}
+
+		refreshActionBar();
+	}
+
+
+	/**
+	 * Transitions the screen from one Fragment to another. If the device has a
+	 * large screen, then the Fragment will be shown as a dialog. Otherwise the
+	 * Fragment will take up the entire screen.
 	 * 
+	 * @param fragment
+	 * The Fragment to transition to. Must be a Fragment that extends the
+	 * Android DialogFragment class.
+	 * 
+	 * @param tag
+	 * A tag to assign to the Fragment (in the case that it is shown as a
+	 * dialog).
 	 * 
 	 * @param bundle
-	 * 
+	 * Arguments to pass into the Fragment. Can be null.
 	 */
 	private void transitionToFragment(DialogFragment fragment, final String tag, final Bundle bundle)
 	{
@@ -186,8 +209,6 @@ public class MainActivity extends Activity implements
 				locationListFragment = (LocationListFragment) fManager.findFragmentById(R.id.main_activity_container);
 			}
 		}
-
-		fragment = new DialogFragment();
 
 		if (bundle != null)
 		{
@@ -215,6 +236,7 @@ public class MainActivity extends Activity implements
 	@Override
 	public void onClickCreateLocation()
 	{
+		createLocationFragment = new CreateLocationFragment();
 		transitionToFragment(createLocationFragment, CreateLocationFragment.TAG, null);
 	}
 
@@ -229,7 +251,8 @@ public class MainActivity extends Activity implements
 		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LATITUDE, location.getLatitude());
 		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LONGITUDE, location.getLongitude());
 
-		transitionToFragment(editLocationFragment, UpdateLocationFragment.TAG, bundle);
+		updateLocationFragment = new UpdateLocationFragment();
+		transitionToFragment(updateLocationFragment, UpdateLocationFragment.TAG, bundle);
 	}
 
 
@@ -243,6 +266,7 @@ public class MainActivity extends Activity implements
 		bundle.putDouble(ViewLocationFragment.KEY_LOCATION_LATITUDE, location.getLatitude());
 		bundle.putDouble(ViewLocationFragment.KEY_LOCATION_LONGITUDE, location.getLongitude());
 
+		viewLocationFragment = new ViewLocationFragment();
 		transitionToFragment(viewLocationFragment, ViewLocationFragment.TAG, bundle);
 	}
 
@@ -250,7 +274,7 @@ public class MainActivity extends Activity implements
 	@Override
 	public void onLocationCreate(final SimpleLocation location)
 	{
-		onLocationUpdate(createLocationFragment, CreateLocationFragment.TAG);
+		transitionBackToLocationList(createLocationFragment, CreateLocationFragment.TAG);
 		locationListFragment.createSimpleLocation(location);
 	}
 
@@ -258,7 +282,7 @@ public class MainActivity extends Activity implements
 	@Override
 	public void onLocationUpdate(final SimpleLocation location)
 	{
-		onLocationUpdate(editLocationFragment, UpdateLocationFragment.TAG);
+		transitionBackToLocationList(updateLocationFragment, UpdateLocationFragment.TAG);
 		locationListFragment.editSimpleLocation(location);
 	}
 

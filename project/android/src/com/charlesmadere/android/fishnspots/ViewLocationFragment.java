@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
@@ -37,7 +38,7 @@ public class ViewLocationFragment extends DialogFragment
 	/**
 	 * The SimpleLocation object that this Fragment will be viewing.
 	 */
-	private SimpleLocation simpleLocation;
+	private SimpleLocation location;
 
 
 
@@ -72,7 +73,7 @@ public class ViewLocationFragment extends DialogFragment
 	{
 		super.onActivityCreated(savedInstanceState);
 
-		simpleLocation = new SimpleLocation
+		location = new SimpleLocation
 		(
 			savedInstanceState.getLong(KEY_LOCATION_ID),
 			savedInstanceState.getString(KEY_LOCATION_NAME),
@@ -80,6 +81,45 @@ public class ViewLocationFragment extends DialogFragment
 			savedInstanceState.getDouble(KEY_LOCATION_LATITUDE),
 			savedInstanceState.getDouble(KEY_LOCATION_LONGITUDE)
 		);
+
+		findViews();
+		flushViews();
+	}
+
+
+
+
+	/**
+	 * Checks to see if all of the layout items that we're using from this
+	 * class's layout have been found (and are not null). If any single one has
+	 * not been found (and is therefore null), then this method will find every
+	 * single layout item.
+	 */
+	private void findViews()
+	{
+		if (textView_name == null || textView_altitude == null || textView_latitude == null
+			|| textView_longitude == null)
+		{
+			final View view = getView();
+
+			textView_name = (EditText) view.findViewById(R.id.view_location_fragment_textview_name);
+			textView_altitude = (EditText) view.findViewById(R.id.view_location_fragment_textview_altitude);
+			textView_latitude = (EditText) view.findViewById(R.id.view_location_fragment_textview_latitude);
+			textView_longitude = (EditText) view.findViewById(R.id.view_location_fragment_textview_longitude);
+		}
+	}
+
+
+	/**
+	 * Sets the text for all of this layout's TextView item's to the
+	 * actual data in the SimpleLocation object.
+	 */
+	private void flushViews()
+	{
+		textView_name.setText(location.getName());
+		textView_altitude.setText(String.valueOf(location.getAltitude()));
+		textView_latitude.setText(String.valueOf(location.getLatitude()));
+		textView_longitude.setText(String.valueOf(location.getLongitude()));
 	}
 
 

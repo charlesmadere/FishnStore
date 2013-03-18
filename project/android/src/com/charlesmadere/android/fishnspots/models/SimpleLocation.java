@@ -73,6 +73,36 @@ public class SimpleLocation
 
 
 	/**
+	 * Creates a new SimpleLocation object.
+	 * 
+	 * @param name
+	 * This SimpleLocation object's name (a String). Can be anything: "The
+	 * Canal", "The Awesome Beach", or maybe even "Twin Rigs".
+	 * 
+	 * @param altitude
+	 * This SimpleLocation object's altitude (a String). If this String is null
+	 * or empty then there will be a crash.
+	 * 
+	 * @param latitude
+	 * This SimpleLocation object's latitude (a String). If this String is null
+	 * or empty then there will be a crash.
+	 * 
+	 * @param longitude
+	 * This SimpleLocation object's longitude (a String). If this String is
+	 * null or empty then there will be a crash.
+	 */
+	public SimpleLocation(final String name, final String altitude, final String latitude, final String longitude)
+	{
+		this.name = name;
+		this.altitude = Double.parseDouble(altitude);
+		this.latitude = Double.parseDouble(latitude);
+		this.longitude = Double.parseDouble(longitude);
+
+		id = Long.MIN_VALUE;
+	}
+
+
+	/**
 	 * Creates a new SimpleLocation object out of database data. All of the
 	 * inputs for these parameters should be taken directly from the database.
 	 * 
@@ -163,6 +193,93 @@ public class SimpleLocation
 	public boolean hasValidId()
 	{
 		return id != Long.MIN_VALUE;
+	}
+
+
+	/**
+	 * Sets this SimpleLocation's name.
+	 * 
+	 * @param name
+	 * The new name.
+	 */
+	public void setName(final String name)
+	{
+		this.name = name;
+	}
+
+
+	/**
+	 * Sets this SimpleLocation's altitude.
+	 * 
+	 * @param altitude
+	 * The new altitude.
+	 */
+	public void setAltitude(final double altitude)
+	{
+		this.altitude = altitude;
+	}
+
+
+	/**
+	 * Sets this SimpleLocation's altitude.
+	 * 
+	 * @param altitude
+	 * The new altitude. If a null or empty String is passed into here then
+	 * there will be a crash.
+	 */
+	public void setAltitude(final String altitude)
+	{
+		this.altitude = Double.parseDouble(altitude);
+	}
+
+
+	/**
+	 * Sets this SimpleLocation's latitude.
+	 * 
+	 * @param latitude
+	 * The new latitude.
+	 */
+	public void setLatitude(final double latitude)
+	{
+		this.latitude = latitude;
+	}
+
+
+	/**
+	 * Sets this SimpleLocation's altitude.
+	 * 
+	 * @param latitude
+	 * The new latitude. If a null or empty String is passed into here then
+	 * there will be a crash.
+	 */
+	public void setLatitude(final String latitude)
+	{
+		this.latitude = Double.parseDouble(latitude);
+	}
+
+
+	/**
+	 * Sets this SimpleLocation's longitude.
+	 * 
+	 * @param longitude
+	 * The new longitude.
+	 */
+	public void setLongitude(final double longitude)
+	{
+		this.longitude = longitude;
+	}
+
+
+	/**
+	 * Sets this SimpleLocation's altitude.
+	 * 
+	 * @param longitude
+	 * The new longitude. If a null or empty String is passed into here then
+	 * there will be a crash.
+	 */
+	public void setLongitude(final String longitude)
+	{
+		this.longitude = Double.parseDouble(longitude);
 	}
 
 
