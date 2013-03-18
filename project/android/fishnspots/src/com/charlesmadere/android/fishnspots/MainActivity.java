@@ -115,8 +115,6 @@ public class MainActivity extends Activity implements
 		}
 		else
 		{
-			// TODO
-			// set up showing titles for other fragments
 			try
 			{
 				final FragmentManager fManager = getFragmentManager();
