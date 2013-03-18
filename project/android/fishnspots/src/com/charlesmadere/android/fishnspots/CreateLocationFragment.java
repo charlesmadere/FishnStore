@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -306,14 +304,6 @@ public class CreateLocationFragment extends DialogFragment
 		{
 			throw new ClassCastException(activity.toString() + " must implement listeners!");
 		}
-	}
-
-
-	@Override
-	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
-	{
-		menu.removeItem(R.id.location_list_fragment_menu_create_location);
-		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 

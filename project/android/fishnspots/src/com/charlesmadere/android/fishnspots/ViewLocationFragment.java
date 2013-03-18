@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
@@ -32,12 +33,17 @@ public class ViewLocationFragment extends DialogFragment
 	private TextView textView_altitude;
 	private TextView textView_latitude;
 	private TextView textView_longitude;
+	private Button button_editLocation;
+	private Button button_deleteLocation;
 
 
 	/**
 	 * The SimpleLocation object that this Fragment will be viewing.
 	 */
 	private SimpleLocation location;
+
+
+	
 
 
 
@@ -84,6 +90,25 @@ public class ViewLocationFragment extends DialogFragment
 		);
 
 		findViews();
+
+		button_editLocation.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View v)
+			{
+				
+			}
+		});
+
+		button_deleteLocation.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View v)
+			{
+				
+			}
+		});
+
 		flushViews();
 	}
 
@@ -99,7 +124,7 @@ public class ViewLocationFragment extends DialogFragment
 	private void findViews()
 	{
 		if (textView_name == null || textView_altitude == null || textView_latitude == null
-			|| textView_longitude == null)
+			|| textView_longitude == null || button_editLocation == null || button_deleteLocation == null)
 		{
 			final View view = getView();
 
@@ -107,6 +132,8 @@ public class ViewLocationFragment extends DialogFragment
 			textView_altitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_altitude);
 			textView_latitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_latitude);
 			textView_longitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_longitude);
+			button_editLocation = (Button) view.findViewById(R.id.view_location_fragment_button_edit_location);
+			button_deleteLocation = (Button) view.findViewById(R.id.view_location_fragment_button_delete_location);
 		}
 	}
 
