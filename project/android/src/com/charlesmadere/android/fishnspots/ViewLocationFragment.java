@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
@@ -73,13 +72,15 @@ public class ViewLocationFragment extends DialogFragment
 	{
 		super.onActivityCreated(savedInstanceState);
 
+		final Bundle arguments = getArguments();
+
 		location = new SimpleLocation
 		(
-			savedInstanceState.getLong(KEY_LOCATION_ID),
-			savedInstanceState.getString(KEY_LOCATION_NAME),
-			savedInstanceState.getDouble(KEY_LOCATION_ALTITUDE),
-			savedInstanceState.getDouble(KEY_LOCATION_LATITUDE),
-			savedInstanceState.getDouble(KEY_LOCATION_LONGITUDE)
+			arguments.getLong(KEY_LOCATION_ID),
+			arguments.getString(KEY_LOCATION_NAME),
+			arguments.getDouble(KEY_LOCATION_ALTITUDE),
+			arguments.getDouble(KEY_LOCATION_LATITUDE),
+			arguments.getDouble(KEY_LOCATION_LONGITUDE)
 		);
 
 		findViews();
@@ -102,10 +103,10 @@ public class ViewLocationFragment extends DialogFragment
 		{
 			final View view = getView();
 
-			textView_name = (EditText) view.findViewById(R.id.view_location_fragment_textview_name);
-			textView_altitude = (EditText) view.findViewById(R.id.view_location_fragment_textview_altitude);
-			textView_latitude = (EditText) view.findViewById(R.id.view_location_fragment_textview_latitude);
-			textView_longitude = (EditText) view.findViewById(R.id.view_location_fragment_textview_longitude);
+			textView_name = (TextView) view.findViewById(R.id.view_location_fragment_textview_name);
+			textView_altitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_altitude);
+			textView_latitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_latitude);
+			textView_longitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_longitude);
 		}
 	}
 

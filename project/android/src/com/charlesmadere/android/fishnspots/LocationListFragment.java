@@ -144,7 +144,10 @@ public class LocationListFragment extends ListFragment implements
 	@Override
 	public void onItemClick(final AdapterView<?> l, final View v, final int position, final long id)
 	{
-		
+		v.setSelected(true);
+
+		final SimpleLocation location = (SimpleLocation) l.getItemAtPosition(position);
+		listeners.onClickViewLocation(location);
 	}
 
 

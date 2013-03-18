@@ -128,7 +128,22 @@ public class MainActivity extends Activity implements
 			catch (final ClassCastException e)
 			{
 				actionBar.setDisplayHomeAsUpEnabled(true);
-				actionBar.setTitle(R.string.create_location);
+				final int actionBarTitle;
+
+				if (createLocationFragment != null && createLocationFragment.isVisible())
+				{
+					actionBarTitle = R.string.create_location;
+				}
+				else if (updateLocationFragment != null && updateLocationFragment.isVisible())
+				{
+					actionBarTitle = R.string.update_location;
+				}
+				else
+				{
+					actionBarTitle = R.string.view_location;
+				}
+
+				actionBar.setTitle(actionBarTitle);
 			}
 		}
 	}

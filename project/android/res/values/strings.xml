@@ -13,10 +13,12 @@
 	<string name="location_list_fragment_no_locations">You have no stored locations!</string>
 	<string name="location_x">Location $1%s</string>
 	<string name="longitude">Longitude</string>
+	<string name="manual_entry">Manual Entry</string>
 	<string name="name">Name</string>
 	<string name="okay">Okay</string>
 	<string name="refresh">Refresh</string>
 	<string name="searching_for_location">Searching for Location&#8230;</string>
 	<string name="select_an_action">Select an Action</string>
 	<string name="update_location">Update Location</string>
+	<string name="view_location">View Location</string>
 </resources>

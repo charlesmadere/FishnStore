@@ -104,13 +104,15 @@ public class UpdateLocationFragment extends DialogFragment
 	{
 		super.onActivityCreated(savedInstanceState);
 
+		final Bundle arguments = getArguments();
+
 		location = new SimpleLocation
 		(
-			savedInstanceState.getLong(KEY_LOCATION_ID),
-			savedInstanceState.getString(KEY_LOCATION_NAME),
-			savedInstanceState.getDouble(KEY_LOCATION_ALTITUDE),
-			savedInstanceState.getDouble(KEY_LOCATION_LATITUDE),
-			savedInstanceState.getDouble(KEY_LOCATION_LONGITUDE)
+			arguments.getLong(KEY_LOCATION_ID),
+			arguments.getString(KEY_LOCATION_NAME),
+			arguments.getDouble(KEY_LOCATION_ALTITUDE),
+			arguments.getDouble(KEY_LOCATION_LATITUDE),
+			arguments.getDouble(KEY_LOCATION_LONGITUDE)
 		);
 
 		findViews();

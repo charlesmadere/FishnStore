@@ -51,7 +51,8 @@ public class CreateLocationFragment extends DialogFragment
 	private EditText editText_longitude;
 	private ProgressBar progressBar_header;
 	private Button button_refresh;
-	private Button button_saveThisLocation;
+	private Button button_createLocation;
+	private Button button_manualEntry;
 
 
 	/**
@@ -136,11 +137,11 @@ public class CreateLocationFragment extends DialogFragment
 				if (editText_name.length() >= 1 && editText_altitude.length() >= 1
 					&& editText_latitude.length() >= 1 && editText_longitude.length() >= 1)
 				{
-					button_saveThisLocation.setEnabled(true);
+					button_createLocation.setEnabled(true);
 				}
 				else
 				{
-					button_saveThisLocation.setEnabled(false);
+					button_createLocation.setEnabled(false);
 				}
 			}
 
@@ -176,11 +177,13 @@ public class CreateLocationFragment extends DialogFragment
 			}
 		});
 
-		button_saveThisLocation.setOnClickListener(new View.OnClickListener()
+		button_createLocation.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(final View v)
 			{
+				locationManager.removeUpdates(locationListener);
+
 				final SimpleLocation location = new SimpleLocation
 				(
 					editText_name.getText().toString(),
@@ -190,6 +193,26 @@ public class CreateLocationFragment extends DialogFragment
 				);
 
 				listeners.onLocationCreate(location);
+			}
+		});
+
+		button_manualEntry.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View v)
+			{
+				locationManager.removeUpdates(locationListener);
+				locationSearchIsRunning = false;
+
+				findViews();
+
+				editText_altitude.setHint(null);
+				editText_latitude.setHint(null);
+				editText_longitude.setHint(null);
+
+				flushViews();
+
+				textView_header.setText(R.string.manual_entry);
 			}
 		});
 
@@ -350,7 +373,7 @@ public class CreateLocationFragment extends DialogFragment
 	{
 		if (textView_header == null || editText_name == null || editText_altitude == null
 			|| editText_latitude == null || editText_longitude == null || progressBar_header == null
-			|| button_refresh == null || button_saveThisLocation == null)
+			|| button_refresh == null || button_createLocation == null || button_manualEntry == null)
 		{
 			final View view = getView();
 
@@ -361,7 +384,8 @@ public class CreateLocationFragment extends DialogFragment
 			editText_longitude = (EditText) view.findViewById(R.id.create_location_fragment_edittext_longitude);
 			progressBar_header = (ProgressBar) view.findViewById(R.id.create_location_fragment_linearlayout_header_progressbar);
 			button_refresh = (Button) view.findViewById(R.id.create_location_fragment_linearlayout_header_button);
-			button_saveThisLocation = (Button) view.findViewById(R.id.create_location_fragment_button_create_location);
+			button_createLocation = (Button) view.findViewById(R.id.create_location_fragment_button_create_location);
+			button_manualEntry = (Button) view.findViewById(R.id.create_location_fragment_button_manual_entry);
 		}
 	}
 
@@ -381,14 +405,17 @@ public class CreateLocationFragment extends DialogFragment
 			progressBar_header.setVisibility(View.VISIBLE);
 			button_refresh.setVisibility(View.GONE);
 
-			editText_altitude.setText(null);
 			editText_altitude.setEnabled(false);
-
-			editText_latitude.setText(null);
+			editText_altitude.setHint(R.string.loading);
+			editText_altitude.setText(null);
 			editText_latitude.setEnabled(false);
-
-			editText_longitude.setText(null);
+			editText_latitude.setHint(R.string.loading);
+			editText_latitude.setText(null);
 			editText_longitude.setEnabled(false);
+			editText_longitude.setHint(R.string.loading);
+			editText_longitude.setText(null);
+
+			button_manualEntry.setEnabled(true);
 		}
 		else
 		{
@@ -399,6 +426,8 @@ public class CreateLocationFragment extends DialogFragment
 			editText_altitude.setEnabled(true);
 			editText_latitude.setEnabled(true);
 			editText_longitude.setEnabled(true);
+
+			button_manualEntry.setEnabled(false);
 		}
 	}
 
