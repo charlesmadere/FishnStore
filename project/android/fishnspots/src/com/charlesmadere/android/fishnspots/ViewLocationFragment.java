@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 import com.charlesmadere.android.fishnspots.utilities.DeleteAlertDialog;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -221,9 +222,15 @@ public class ViewLocationFragment extends DialogFragment
 	 */
 	private void flushViews()
 	{
+		final LatLng latLng = new LatLng((float) location.getLatitude(), (float) location.getLongitude());
+
 		final GoogleMap map = mapFragment_map.getMap();
+		map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+		map.moveCamera(CameraUpdateFactory.zoomBy(10));
+		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
 		map.addMarker(new MarkerOptions()
-			.position(new LatLng(location.getLatitude(), location.getLongitude()))
+			.position(latLng)
 			.title(location.getName()));
 
 		textView_name.setText(location.getName());
