@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 import com.charlesmadere.android.fishnspots.utilities.DeleteAlertDialog;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class ViewLocationFragment extends DialogFragment
@@ -31,6 +35,7 @@ public class ViewLocationFragment extends DialogFragment
 
 
 
+	private MapFragment mapFragment_map;
 	private TextView textView_name;
 	private TextView textView_altitude;
 	private TextView textView_latitude;
@@ -194,11 +199,12 @@ public class ViewLocationFragment extends DialogFragment
 	 */
 	private void findViews()
 	{
-		if (textView_name == null || textView_altitude == null || textView_latitude == null
+		if (mapFragment_map == null || textView_name == null || textView_altitude == null || textView_latitude == null
 			|| textView_longitude == null || button_deleteLocation == null || button_updateLocation == null)
 		{
 			final View view = getView();
 
+			mapFragment_map = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.view_location_fragment_map_fragment);
 			textView_name = (TextView) view.findViewById(R.id.view_location_fragment_textview_name);
 			textView_altitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_altitude);
 			textView_latitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_latitude);
@@ -215,6 +221,11 @@ public class ViewLocationFragment extends DialogFragment
 	 */
 	private void flushViews()
 	{
+		final GoogleMap map = mapFragment_map.getMap();
+		map.addMarker(new MarkerOptions()
+			.position(new LatLng(location.getLatitude(), location.getLongitude()))
+			.title(location.getName()));
+
 		textView_name.setText(location.getName());
 		textView_altitude.setText(String.valueOf(location.getAltitude()));
 		textView_latitude.setText(String.valueOf(location.getLatitude()));

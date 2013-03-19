@@ -63,7 +63,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:text="@string/altitude"
+			android:text="@string/latitude"
 			android:textSize="20sp" />
 		<EditText
 			android:enabled="false"

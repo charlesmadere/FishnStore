@@ -5,6 +5,12 @@
 	android:minWidth="464dip"
 	android:orientation="vertical"
 	style="@style/FishnStore">
+	<fragment
+		android:id="@+id/view_location_fragment_map_fragment"
+		android:layout_height="160dip"
+		android:layout_marginBottom="12dip"
+		android:layout_width="match_parent"
+		android:name="com.google.android.gms.maps.MapFragment" />
 	<TextView
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
