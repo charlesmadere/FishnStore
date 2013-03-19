@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 import com.charlesmadere.android.fishnspots.models.SimpleLocationsDataSource;
+import com.charlesmadere.android.fishnspots.utilities.DeleteAlertDialog;
 
 
 public class LocationListFragment extends ListFragment implements
@@ -177,28 +178,23 @@ public class LocationListFragment extends ListFragment implements
 
 						case 1:
 						// delete
-							final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+							final DeleteAlertDialog deleteAlertDialog = new DeleteAlertDialog(getActivity(), location, new DeleteAlertDialog.DeleteAlertDialogListeners()
+							{
+								@Override
+								public void cancel()
 								{
-									@Override
-									public void onClick(final DialogInterface dialog, final int which)
-									{
-										dialog.dismiss();
-									}
-								})
-								.setMessage(R.string.are_you_sure_that_you_want_to_delete_this_location)
-								.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener()
-								{
-									@Override
-									public void onClick(final DialogInterface dialog, final int which)
-									{
-										dialog.dismiss();
-										deleteLocation(location);
-									}
-								})
-								.setTitle(R.string.delete);
 
-							builder.show();
+								}
+
+
+								@Override
+								public void delete(final SimpleLocation location)
+								{
+									deleteLocation(location);
+								}
+							});
+
+							deleteAlertDialog.show();
 							break;
 					}
 				}

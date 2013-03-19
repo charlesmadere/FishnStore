@@ -4,18 +4,48 @@
 	android:versionCode="1"
 	android:versionName="0.1">
 
+
 	<uses-sdk
 		android:minSdkVersion="14"
 		android:targetSdkVersion="17" />
+
 
 	<!-- Needed to acquire user's GPS location. -->
 	<uses-permission
 		android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+
+	<!-- Needed for Google Maps API v2 -->
+	<uses-feature
+		android:glEsVersion="0x000200000"
+		android:required="true" />
+
+	<uses-permission
+		android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+	<uses-permission
+		android:name="android.permission.INTERNET" />
+
+	<uses-permission
+		android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+	<uses-permission
+		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+	<permission
+		android:name="com.charlesmadere.android.fishnspots.permission.MAPS_RECEIVE"
+		android:protectionLevel="signature" />
+
+	<uses-permission
+		android:name="com.charlesmadere.android.fishnspots.permission.MAPS_RECEIVE" />
+	<!-- End Google Maps API v2 stuff -->
+
+
 	<application
 		android:allowBackup="false"
 		android:icon="@drawable/launcher"
 		android:label="@string/fish_n_spots">
+
 		<activity
 			android:name=".MainActivity"
 			android:label="@string/fish_n_spots">
@@ -26,6 +56,12 @@
 					android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
+		<meta-data
+			android:name="com.google.android.maps.v2.API_KEY"
+			android:value="AIzaSyAbw9ceSOkRCLeksmbzTVPTIxF-iRn07bs" />
+
 	</application>
+
 
 </manifest>

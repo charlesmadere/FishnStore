@@ -2,10 +2,8 @@ package com.charlesmadere.android.fishnspots;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
+import com.charlesmadere.android.fishnspots.utilities.DeleteAlertDialog;
 
 
 public class ViewLocationFragment extends DialogFragment
@@ -47,13 +46,14 @@ public class ViewLocationFragment extends DialogFragment
 
 
 	/**
-	 * 
+	 * Object that allows us to run any of the methods that are defined in the
+	 * ViewLocationFragmentListeners interface.
 	 */
 	private ViewLocationFragmentListeners listeners;
 
 
 	/**
-	 * 
+	 * A bunch of listener methods for this Fragment.
 	 */
 	public interface ViewLocationFragmentListeners
 	{
@@ -132,28 +132,23 @@ public class ViewLocationFragment extends DialogFragment
 			@Override
 			public void onClick(final View v)
 			{
-				final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+				final DeleteAlertDialog deleteAlertDialog = new DeleteAlertDialog(getActivity(), location, new DeleteAlertDialog.DeleteAlertDialogListeners()
+				{
+					@Override
+					public void cancel()
 					{
-						@Override
-						public void onClick(final DialogInterface dialog, final int which)
-						{
-							dialog.dismiss();
-						}
-					})
-					.setMessage(R.string.are_you_sure_that_you_want_to_delete_this_location)
-					.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(final DialogInterface dialog, final int which)
-						{
-							dialog.dismiss();
-							listeners.viewLocationFragmentOnClickDeleteLocation(location);
-						}
-					})
-					.setTitle(R.string.delete);
 
-				builder.show();
+					}
+
+
+					@Override
+					public void delete(final SimpleLocation location)
+					{
+						listeners.viewLocationFragmentOnClickDeleteLocation(location);
+					}
+				});
+
+				deleteAlertDialog.show();
 			}
 		});
 
