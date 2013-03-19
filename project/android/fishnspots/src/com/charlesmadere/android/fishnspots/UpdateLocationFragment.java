@@ -60,13 +60,13 @@ public class UpdateLocationFragment extends DialogFragment
 
 
 		/**
-		 * This is fired whenever the user clicks the Save Location Changes
-		 * button in this Fragment's layout.
+		 * This is fired whenever the user clicks the Update Location button in
+		 * this Fragment's layout.
 		 * 
 		 * @param location
-		 * The SimpleLocation object as edited by the user.
+		 * The SimpleLocation object as updated by the user.
 		 */
-		public void onLocationUpdate(final SimpleLocation location);
+		public void updateLocationFragmentOnClickUpdateLocation(final SimpleLocation location);
 
 
 	}
@@ -164,7 +164,7 @@ public class UpdateLocationFragment extends DialogFragment
 				location.setLatitude(editText_latitude.getText().toString());
 				location.setLongitude(editText_longitude.getText().toString());
 
-				listeners.onLocationUpdate(location);
+				listeners.updateLocationFragmentOnClickUpdateLocation(location);
 			}
 		});
 

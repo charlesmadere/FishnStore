@@ -19,7 +19,8 @@ import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 public class MainActivity extends Activity implements
 	CreateLocationFragment.CreateLocationListeners,
 	LocationListFragment.LocationListFragmentListeners,
-	UpdateLocationFragment.UpdateLocationFragmentListeners
+	UpdateLocationFragment.UpdateLocationFragmentListeners,
+	ViewLocationFragment.ViewLocationFragmentListeners
 {
 
 
@@ -247,30 +248,15 @@ public class MainActivity extends Activity implements
 
 
 	@Override
-	public void onClickCreateLocation()
+	public void createLocationFragmentOnClickCreateLocation(final SimpleLocation location)
 	{
-		createLocationFragment = new CreateLocationFragment();
-		transitionToFragment(createLocationFragment, CreateLocationFragment.TAG, null);
+		transitionBackToLocationList(createLocationFragment, CreateLocationFragment.TAG);
+		locationListFragment.createLocation(location);
 	}
 
 
 	@Override
-	public void onClickUpdateLocation(final SimpleLocation location)
-	{
-		final Bundle bundle = new Bundle();
-		bundle.putLong(UpdateLocationFragment.KEY_LOCATION_ID, location.getId());
-		bundle.putString(UpdateLocationFragment.KEY_LOCATION_NAME, location.getName());
-		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_ALTITUDE, location.getAltitude());
-		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LATITUDE, location.getLatitude());
-		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LONGITUDE, location.getLongitude());
-
-		updateLocationFragment = new UpdateLocationFragment();
-		transitionToFragment(updateLocationFragment, UpdateLocationFragment.TAG, bundle);
-	}
-
-
-	@Override
-	public void onClickViewLocation(final SimpleLocation location)
+	public void locationListFragmentOnClickLocation(final SimpleLocation location)
 	{
 		final Bundle bundle = new Bundle();
 		bundle.putLong(ViewLocationFragment.KEY_LOCATION_ID, location.getId());
@@ -285,18 +271,49 @@ public class MainActivity extends Activity implements
 
 
 	@Override
-	public void onLocationCreate(final SimpleLocation location)
+	public void locationListFragmentOnClickCreateLocation()
 	{
-		transitionBackToLocationList(createLocationFragment, CreateLocationFragment.TAG);
-		locationListFragment.createSimpleLocation(location);
+		createLocationFragment = new CreateLocationFragment();
+		transitionToFragment(createLocationFragment, CreateLocationFragment.TAG, null);
 	}
 
 
 	@Override
-	public void onLocationUpdate(final SimpleLocation location)
+	public void locationListFragmentOnClickUpdateLocation(final SimpleLocation location)
+	{
+		final Bundle bundle = new Bundle();
+		bundle.putLong(UpdateLocationFragment.KEY_LOCATION_ID, location.getId());
+		bundle.putString(UpdateLocationFragment.KEY_LOCATION_NAME, location.getName());
+		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_ALTITUDE, location.getAltitude());
+		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LATITUDE, location.getLatitude());
+		bundle.putDouble(UpdateLocationFragment.KEY_LOCATION_LONGITUDE, location.getLongitude());
+
+		updateLocationFragment = new UpdateLocationFragment();
+		transitionToFragment(updateLocationFragment, UpdateLocationFragment.TAG, bundle);
+	}
+
+
+	@Override
+	public void updateLocationFragmentOnClickUpdateLocation(final SimpleLocation location)
 	{
 		transitionBackToLocationList(updateLocationFragment, UpdateLocationFragment.TAG);
-		locationListFragment.editSimpleLocation(location);
+		locationListFragment.updateLocation(location);
+	}
+
+
+	@Override
+	public void viewLocationFragmentOnClickDeleteLocation(final SimpleLocation location)
+	{
+		transitionBackToLocationList(viewLocationFragment, ViewLocationFragment.TAG);
+		locationListFragment.deleteLocation(location);
+	}
+
+
+	@Override
+	public void viewLocationFragmentOnClickUpdateLocation(final SimpleLocation location)
+	{
+		transitionBackToLocationList(viewLocationFragment, ViewLocationFragment.TAG);
+		locationListFragmentOnClickUpdateLocation(location);
 	}
 
 

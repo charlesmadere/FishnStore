@@ -45,7 +45,7 @@ public class SimpleLocationsDataSource
 	}
 
 
-	public SimpleLocation createSimpleLocation(final SimpleLocation location)
+	public SimpleLocation createLocation(final SimpleLocation location)
 	{
 		final ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_NAME, location.getName());
@@ -79,13 +79,13 @@ public class SimpleLocationsDataSource
 	}
 
 
-	public void deleteSimpleLocation(final SimpleLocation location)
+	public void deleteLocation(final SimpleLocation location)
 	{
 		db.delete(DatabaseHelper.TABLE_LOCATIONS, DatabaseHelper.TABLE_LOCATIONS_COLUMN_ID + " = " + location.getId(), null);
 	}
 
 
-	public ArrayList<SimpleLocation> getAllSimpleLocations()
+	public ArrayList<SimpleLocation> getAllLocations()
 	{
 		final ArrayList<SimpleLocation> simpleLocations = new ArrayList<SimpleLocation>();
 
@@ -115,7 +115,7 @@ public class SimpleLocationsDataSource
 	}
 
 
-	public void editSimpleLocation(final SimpleLocation location)
+	public void updateLocation(final SimpleLocation location)
 	{
 		final ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.TABLE_LOCATIONS_COLUMN_ID, location.getId());

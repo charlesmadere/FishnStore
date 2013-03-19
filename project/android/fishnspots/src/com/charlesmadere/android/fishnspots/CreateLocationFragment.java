@@ -78,14 +78,14 @@ public class CreateLocationFragment extends DialogFragment
 
 
 		/**
-		 * This is fired whenever the user clicks the Save this Location button
-		 * in this Fragment's layout.
+		 * This is fired whenever the user clicks the Create Location button in
+		 * this Fragment's layout.
 		 * 
 		 * @param simpleLocation
 		 * The SimpleLocation object as created from the Location object which
 		 * was found by the Android GPS system.
 		 */
-		public void onLocationCreate(final SimpleLocation simpleLocation);
+		public void createLocationFragmentOnClickCreateLocation(final SimpleLocation simpleLocation);
 
 
 	}
@@ -190,7 +190,7 @@ public class CreateLocationFragment extends DialogFragment
 					editText_longitude.getText().toString()
 				);
 
-				listeners.onLocationCreate(location);
+				listeners.createLocationFragmentOnClickCreateLocation(location);
 			}
 		});
 

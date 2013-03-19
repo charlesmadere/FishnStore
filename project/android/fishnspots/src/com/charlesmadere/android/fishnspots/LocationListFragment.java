@@ -55,18 +55,7 @@ public class LocationListFragment extends ListFragment implements
 		 * This method will be fired when the user taps the Save Current
 		 * Location button on the Action Bar.
 		 */
-		public void onClickCreateLocation();
-
-
-		/**
-		 * This method will be fired when the user taps the Edit item on one of
-		 * the popup context menus for a SimpleLocation in the list of
-		 * SimpleLocations.
-		 * 
-		 * @param location
-		 * The SimpleLocation that the user has decided to edit.
-		 */
-		public void onClickUpdateLocation(final SimpleLocation location);
+		public void locationListFragmentOnClickCreateLocation();
 
 
 		/**
@@ -76,7 +65,18 @@ public class LocationListFragment extends ListFragment implements
 		 * @param location
 		 * The SimpleLocation that the user tapped.
 		 */
-		public void onClickViewLocation(final SimpleLocation location);
+		public void locationListFragmentOnClickLocation(final SimpleLocation location);
+
+
+		/**
+		 * This method will be fired when the user taps the Update item on one
+		 * of the popup context menus for a SimpleLocation in the list of
+		 * SimpleLocations.
+		 * 
+		 * @param location
+		 * The SimpleLocation that the user has decided to update.
+		 */
+		public void locationListFragmentOnClickUpdateLocation(final SimpleLocation location);
 
 
 	}
@@ -147,7 +147,7 @@ public class LocationListFragment extends ListFragment implements
 		v.setSelected(true);
 
 		final SimpleLocation location = (SimpleLocation) l.getItemAtPosition(position);
-		listeners.onClickViewLocation(location);
+		listeners.locationListFragmentOnClickLocation(location);
 	}
 
 
@@ -172,7 +172,7 @@ public class LocationListFragment extends ListFragment implements
 					{
 						case 0:
 						// edit
-							listeners.onClickUpdateLocation(location);
+							listeners.locationListFragmentOnClickUpdateLocation(location);
 							break;
 
 						case 1:
@@ -193,7 +193,7 @@ public class LocationListFragment extends ListFragment implements
 									public void onClick(final DialogInterface dialog, final int which)
 									{
 										dialog.dismiss();
-										deleteSimpleLocation(location);
+										deleteLocation(location);
 									}
 								})
 								.setTitle(R.string.delete);
@@ -225,7 +225,7 @@ public class LocationListFragment extends ListFragment implements
 		switch (item.getItemId())
 		{
 			case R.id.location_list_fragment_menu_create_location:
-				listeners.onClickCreateLocation();
+				listeners.locationListFragmentOnClickCreateLocation();
 				break;
 
 			default:
@@ -244,26 +244,10 @@ public class LocationListFragment extends ListFragment implements
 	 * @param location
 	 * The SimpleLocation object to be added.
 	 */
-	public void createSimpleLocation(final SimpleLocation location)
+	public void createLocation(final SimpleLocation location)
 	{
-		dataSource.createSimpleLocation(location);
+		dataSource.createLocation(location);
 		refreshLocationList();
-	}
-
-
-	/**
-	 * Edits an existing SimpleLocation and updates its data in the database.
-	 * 
-	 * @param location
-	 * The SimpleLocation object to be updated.
-	 */
-	public void editSimpleLocation(final SimpleLocation location)
-	{
-		if (location.hasValidId())
-		{
-			dataSource.editSimpleLocation(location);
-			refreshLocationList();
-		}
 	}
 
 
@@ -273,11 +257,11 @@ public class LocationListFragment extends ListFragment implements
 	 * @param location
 	 * The SimpleLocation object to be deleted.
 	 */
-	private void deleteSimpleLocation(final SimpleLocation location)
+	public void deleteLocation(final SimpleLocation location)
 	{
 		if (location.hasValidId())
 		{
-			dataSource.deleteSimpleLocation(location);
+			dataSource.deleteLocation(location);
 			refreshLocationList();
 		}
 	}
@@ -289,8 +273,24 @@ public class LocationListFragment extends ListFragment implements
 	 */
 	private void refreshLocationList()
 	{
-		final ArrayList<SimpleLocation> locations = dataSource.getAllSimpleLocations();
+		final ArrayList<SimpleLocation> locations = dataSource.getAllLocations();
 		setListAdapter(new LocationListAdapter(getActivity(), R.layout.location_list_fragment_item, locations));
+	}
+
+
+	/**
+	 * Updates an existing SimpleLocation's data in the database.
+	 * 
+	 * @param location
+	 * The SimpleLocation object to be updated.
+	 */
+	public void updateLocation(final SimpleLocation location)
+	{
+		if (location.hasValidId())
+		{
+			dataSource.updateLocation(location);
+			refreshLocationList();
+		}
 	}
 
 

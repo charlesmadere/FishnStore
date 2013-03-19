@@ -1,8 +1,11 @@
 package com.charlesmadere.android.fishnspots;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +36,8 @@ public class ViewLocationFragment extends DialogFragment
 	private TextView textView_altitude;
 	private TextView textView_latitude;
 	private TextView textView_longitude;
-	private Button button_editLocation;
 	private Button button_deleteLocation;
+	private Button button_updateLocation;
 
 
 	/**
@@ -43,7 +46,40 @@ public class ViewLocationFragment extends DialogFragment
 	private SimpleLocation location;
 
 
-	
+	/**
+	 * 
+	 */
+	private ViewLocationFragmentListeners listeners;
+
+
+	/**
+	 * 
+	 */
+	public interface ViewLocationFragmentListeners
+	{
+
+
+		/**
+		 * This is fired whenever the user clicks the Delete Location button in
+		 * this Fragment's layout.
+		 * 
+		 * @param location
+		 * The SimpleLocation that the user has decided to delete.
+		 */
+		public void viewLocationFragmentOnClickDeleteLocation(final SimpleLocation location);
+
+
+		/**
+		 * This is fired whenever the user taps the Update Location button in
+		 * this Fragment's layout.
+		 * 
+		 * @param location
+		 * The SimpleLocation that the user has decided to update.
+		 */
+		public void viewLocationFragmentOnClickUpdateLocation(final SimpleLocation location);
+
+
+	}
 
 
 
@@ -91,25 +127,65 @@ public class ViewLocationFragment extends DialogFragment
 
 		findViews();
 
-		button_editLocation.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(final View v)
-			{
-				
-			}
-		});
-
 		button_deleteLocation.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(final View v)
 			{
-				
+				final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(final DialogInterface dialog, final int which)
+						{
+							dialog.dismiss();
+						}
+					})
+					.setMessage(R.string.are_you_sure_that_you_want_to_delete_this_location)
+					.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(final DialogInterface dialog, final int which)
+						{
+							dialog.dismiss();
+							listeners.viewLocationFragmentOnClickDeleteLocation(location);
+						}
+					})
+					.setTitle(R.string.delete);
+
+				builder.show();
+			}
+		});
+
+		button_updateLocation.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View v)
+			{
+				listeners.viewLocationFragmentOnClickUpdateLocation(location);
 			}
 		});
 
 		flushViews();
+	}
+
+
+	@Override
+	public void onAttach(final Activity activity)
+	// This makes sure that the Activity containing this Fragment has
+	// implemented the callback interface. If the callback interface has not
+	// been implemented, an exception is thrown.
+	{
+		super.onAttach(activity);
+
+		try
+		{
+			listeners = (ViewLocationFragmentListeners) activity;
+		}
+		catch (final ClassCastException e)
+		{
+			throw new ClassCastException(activity.toString() + " must implement listeners!");
+		}
 	}
 
 
@@ -124,7 +200,7 @@ public class ViewLocationFragment extends DialogFragment
 	private void findViews()
 	{
 		if (textView_name == null || textView_altitude == null || textView_latitude == null
-			|| textView_longitude == null || button_editLocation == null || button_deleteLocation == null)
+			|| textView_longitude == null || button_deleteLocation == null || button_updateLocation == null)
 		{
 			final View view = getView();
 
@@ -132,8 +208,8 @@ public class ViewLocationFragment extends DialogFragment
 			textView_altitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_altitude);
 			textView_latitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_latitude);
 			textView_longitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_longitude);
-			button_editLocation = (Button) view.findViewById(R.id.view_location_fragment_button_edit_location);
 			button_deleteLocation = (Button) view.findViewById(R.id.view_location_fragment_button_delete_location);
+			button_updateLocation = (Button) view.findViewById(R.id.view_location_fragment_button_update_location);
 		}
 	}
 

@@ -6,8 +6,6 @@
 	<string name="create_location">Create Location</string>
 	<string name="delete">Delete</string>
 	<string name="delete_location">Delete Location</string>
-	<string name="edit">Edit</string>
-	<string name="edit_location">Edit Location</string>
 	<string name="fish_n_spots">Fish \'n\' Spots</string>
 	<string name="latitude">Latitude</string>
 	<string name="loading">Loading&#8230;</string>
@@ -21,6 +19,7 @@
 	<string name="refresh">Refresh</string>
 	<string name="searching_for_location">Searching for Location&#8230;</string>
 	<string name="select_an_action">Select an Action</string>
+	<string name="update">Update</string>
 	<string name="update_location">Update Location</string>
 	<string name="view_location">View Location</string>
 </resources>
