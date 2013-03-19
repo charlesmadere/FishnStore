@@ -226,7 +226,7 @@ public class ViewLocationFragment extends DialogFragment
 
 		final GoogleMap map = mapFragment_map.getMap();
 		map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-		map.moveCamera(CameraUpdateFactory.zoomBy(10));
+		map.moveCamera(CameraUpdateFactory.zoomBy(12));
 		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
 		map.addMarker(new MarkerOptions()
