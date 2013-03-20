@@ -66,7 +66,6 @@
 				android:id="@+id/create_location_fragment_edittext_latitude"
 				android:inputType="numberDecimal|numberSigned"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="16dip"
 				android:layout_width="match_parent"
 				android:maxLength="255"
 				android:typeface="monospace" />
@@ -107,29 +106,32 @@
 				android:id="@+id/create_location_fragment_edittext_longitude"
 				android:inputType="numberDecimal|numberSigned"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="24dip"
 				android:layout_width="match_parent"
 				android:maxLength="255"
 				android:typeface="monospace" />
 		</LinearLayout>
 	</LinearLayout>
 	<LinearLayout
-		android:gravity="center"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+		style="?android:attr/buttonBarStyle">
 		<Button
 			android:enabled="false"
 			android:id="@+id/create_location_fragment_button_create_location"
 			android:layout_gravity="center"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="@string/create_location" />
+			android:layout_weight="1"
+			android:layout_width="0dip"
+			android:text="@string/create_location"
+			style="?android:attr/buttonBarButtonStyle" />
 		<Button
 			android:id="@+id/create_location_fragment_button_manual_entry"
 			android:layout_gravity="center"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="@string/manual_entry" />
+			android:layout_weight="1"
+			android:layout_width="0dip"
+			android:text="@string/manual_entry"
+			style="?android:attr/buttonBarButtonStyle" />
 	</LinearLayout>
 </LinearLayout>

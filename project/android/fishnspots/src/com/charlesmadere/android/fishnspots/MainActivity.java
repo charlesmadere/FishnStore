@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 
 /**
@@ -57,6 +59,13 @@ public class MainActivity extends Activity implements
 		}
 
 		refreshActionBar();
+
+		final int checkGooglePlayServices = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+		if (checkGooglePlayServices != ConnectionResult.SUCCESS)
+		{
+			GooglePlayServicesUtil.getErrorDialog(checkGooglePlayServices, this, 1122).show();
+		}
 	}
 
 

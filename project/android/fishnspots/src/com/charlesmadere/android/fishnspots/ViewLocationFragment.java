@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import com.charlesmadere.android.fishnspots.models.SimpleLocation;
 import com.charlesmadere.android.fishnspots.utilities.DeleteAlertDialog;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -36,7 +38,7 @@ public class ViewLocationFragment extends DialogFragment
 
 
 
-	private MapFragment mapFragment_map;
+	private MapView mapView;
 	private TextView textView_name;
 	private TextView textView_altitude;
 	private TextView textView_latitude;
@@ -88,6 +90,9 @@ public class ViewLocationFragment extends DialogFragment
 	}
 
 
+	private Bundle savedInstanceState;
+
+
 
 
 	@Override
@@ -95,6 +100,22 @@ public class ViewLocationFragment extends DialogFragment
 	{
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		try
+		{
+			MapsInitializer.initialize(getActivity());
+		}
+		catch (final GooglePlayServicesNotAvailableException e)
+		{
+
+		}
+
+		this.savedInstanceState = savedInstanceState;
+
+		if (mapView != null)
+		{
+			mapView.onCreate(savedInstanceState);
+		}
 	}
 
 
@@ -190,6 +211,64 @@ public class ViewLocationFragment extends DialogFragment
 	}
 
 
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+
+		if (mapView != null)
+		{
+			mapView.onDestroy();
+		}
+	}
+
+
+	@Override
+	public void onLowMemory()
+	{
+		super.onLowMemory();
+
+		if (mapView != null)
+		{
+			mapView.onLowMemory();
+		}
+	}
+
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		if (mapView != null)
+		{
+			mapView.onPause();
+		}
+	}
+
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+
+		if (mapView != null)
+		{
+			mapView.onResume();
+		}
+	}
+
+
+	@Override
+	public void onSaveInstanceState(final Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+
+		if (mapView != null)
+		{
+			mapView.onSaveInstanceState(outState);
+		}
+	}
 
 
 	/**
@@ -200,12 +279,18 @@ public class ViewLocationFragment extends DialogFragment
 	 */
 	private void findViews()
 	{
-		if (mapFragment_map == null || textView_name == null || textView_altitude == null || textView_latitude == null
+		if (mapView == null || textView_name == null || textView_altitude == null || textView_latitude == null
 			|| textView_longitude == null || button_deleteLocation == null || button_updateLocation == null)
 		{
 			final View view = getView();
 
-			mapFragment_map = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.view_location_fragment_map_fragment);
+			if (mapView == null)
+			{
+				mapView = (MapView) view.findViewById(R.id.view_location_fragment_map_view);
+				mapView.onCreate(savedInstanceState);
+				mapView.onResume();
+			}
+
 			textView_name = (TextView) view.findViewById(R.id.view_location_fragment_textview_name);
 			textView_altitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_altitude);
 			textView_latitude = (TextView) view.findViewById(R.id.view_location_fragment_textview_latitude);
@@ -222,21 +307,21 @@ public class ViewLocationFragment extends DialogFragment
 	 */
 	private void flushViews()
 	{
-		final LatLng latLng = new LatLng((float) location.getLatitude(), (float) location.getLongitude());
-
-		final GoogleMap map = mapFragment_map.getMap();
-		map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-		map.moveCamera(CameraUpdateFactory.zoomBy(12));
-		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-
-		map.addMarker(new MarkerOptions()
-			.position(latLng)
-			.title(location.getName()));
-
 		textView_name.setText(location.getName());
 		textView_altitude.setText(String.valueOf(location.getAltitude()));
 		textView_latitude.setText(String.valueOf(location.getLatitude()));
 		textView_longitude.setText(String.valueOf(location.getLongitude()));
+
+		final LatLng latLng = new LatLng((float) location.getLatitude(), (float) location.getLongitude());
+
+		final GoogleMap googleMap = mapView.getMap();
+		googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+		googleMap.moveCamera(CameraUpdateFactory.zoomBy(14));
+		googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
+		googleMap.addMarker(new MarkerOptions()
+			.position(latLng)
+			.title(location.getName()));
 	}
 
 
