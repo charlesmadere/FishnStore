@@ -62,7 +62,8 @@
 			android:id="@+id/update_location_fragment_button_update_location"
 			android:layout_gravity="center"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="@string/update_location" />
+			android:layout_width="match_parent"
+			android:text="@string/update_location"
+			style="?android:attr/buttonBarButtonStyle" />
 	</LinearLayout>
 </ScrollView>
